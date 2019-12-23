@@ -79,7 +79,7 @@ public class User {
         return Objects.hash(userId, login, password, admin, loginStatus);
     }
 
-    @OneToOne(mappedBy = "userByCustomerId")
+    @OneToOne(mappedBy = "customerByUserId")
     public Customer getCustomerByUserId() {
         return customerByUserId;
     }
