@@ -1,20 +1,18 @@
-package ui;
-
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 
-import java.io.Console;
 
 public class Main extends Application {
 
     @Override
     public void start (Stage primaryStage) throws Exception {
-        Parent root = FXMLLoader.load(getClass().getResource("test.fxml"));
-        primaryStage.setTitle("test");
-        primaryStage.setScene(new Scene(root, 600, 300));
+        Parent root = FXMLLoader.load(getClass().getResource("ui/main.fxml"));
+        primaryStage.setTitle("Wypozyczalnia aut");
+        primaryStage.setResizable(false);
+        primaryStage.setScene(new Scene(root, 600, 600));
         primaryStage.show();
     }
 
