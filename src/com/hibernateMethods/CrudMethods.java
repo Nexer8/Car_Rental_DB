@@ -11,49 +11,69 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
 
-import org.hibernate.Query;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import com.hibernateUtils.HibernateUtils;
 
 import com.car_rental.*;
+import org.hibernate.query.Query;
 
 public class CrudMethods {
 
     SessionFactory sessionFactory = HibernateUtils.getSessionFactory();
+
+    public int userStatusUpdate(User user, boolean status) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        int rc = -1;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update User set loginStatus =: status" + " where userId =: userId");
+            query.setParameter("status", status);
+            query.setParameter("userId", user.getUserId());
+            rc = query.executeUpdate();
+            transaction.commit();
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            e.printStackTrace();
+            return rc;
+        } finally {
+            session.close();
+        }
+        return rc;
+    }
     /**
      * Search if the username exists in the DB through its password
      * @param login
      * @param password
      * @return 1 if the username was not found it or 0 if the username was found it
      */
-    public int logIn(String login, String password) {
+    public User logIn(String login, String password) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
-        User user = null;
-        List<Object[]> rows = null;
+        List<User> users = null;
 
         try {
             transaction = session.beginTransaction();
-            var query = session.createQuery("Select login, password FROM User");
-            rows = query.list();
-            if (rows.isEmpty() || rows == null) {
-                return 1;
+            Query query = session.createQuery("from User u where u.login =: login and u.password =: password");
+            users = query.setParameter("login", login).setParameter("password", password).list();
+            if (users.isEmpty() || users == null) {
+                return null;
             }
-            for (Object[] row : rows) {
-                if (login == row[0] && password == row[1]) {
-                    return 0;
+            for (User user : users) {
+                if (login.equals(user.getLogin()) && password.equals(user.getPassword())) {
+                    return user;
                 }
             }
         } catch (Exception e) {
+            assert transaction != null;
             transaction.rollback();
             e.printStackTrace();
-            return 1;
+            return null;
         } finally {
             session.close();
         }
-
-        return 0;
-
+        return null;
     }
 }
