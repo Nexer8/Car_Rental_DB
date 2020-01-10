@@ -34,8 +34,6 @@ public class MainController {
         registrationStage.setResizable(false);
         registrationStage.setScene(new Scene(root, 600, 600));
         registrationStage.show();
-
-
     }
 
 }
