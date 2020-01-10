@@ -79,10 +79,10 @@ public class User {
         return Objects.hash(userId, login, password, admin, loginStatus);
     }
 
-    @OneToOne(mappedBy = "customerByUserId")
-    public Customer getCustomerByUserId() {
-        return customerByUserId;
-    }
+//    @OneToOne(mappedBy = "customerByUserId")
+//    public Customer getCustomerByUserId() {
+//        return customerByUserId;
+//    }
 
     public void setCustomerByUserId(Customer customerByUserId) {
         this.customerByUserId = customerByUserId;
