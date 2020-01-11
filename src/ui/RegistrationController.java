@@ -42,7 +42,7 @@ public class RegistrationController {
         signUpSuccess.setContentText("You can now log in!");
 
         if (login.getText().isEmpty() || password.getText().isEmpty() || firstName.getText().isEmpty() || lastName.getText().isEmpty()
-        || email.getText().isEmpty() || phone.getText().isEmpty() || bankAcc.getText().isEmpty()
+        || email.getText().isEmpty() || phone.getText().isEmpty() || bankAcc.getText().isEmpty() || dateOfBirth.getValue() == null
         || city.getText().isEmpty() || postalCode.getText().isEmpty() || address.getText().isEmpty()) {
             signUpError.showAndWait();
             return;
@@ -57,7 +57,6 @@ public class RegistrationController {
         customer.setPhoneNumber(phone.getText());
         customer.setBankAccountNumber(bankAcc.getText());
         customer.setDateOfBirth(Date.valueOf(dateOfBirth.getValue()));
-//        customer.setCustomerId(user.getUserId());
         location.setCity(city.getText());
         location.setPostalCode(postalCode.getText());
         location.setStreetAddress(address.getText());

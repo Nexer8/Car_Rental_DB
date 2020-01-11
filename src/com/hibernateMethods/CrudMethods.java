@@ -1,6 +1,8 @@
 package com.hibernateMethods;
 
+import org.hibernate.Criteria;
 import org.hibernate.Transaction;
+import org.hibernate.criterion.Example;
 import org.hibernate.procedure.ProcedureCall;
 
 import java.util.ArrayList;
@@ -10,6 +12,8 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.StoredProcedureQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -147,5 +151,31 @@ public class CrudMethods {
             createCustomer(customer);
         }
         return 0;
+    }
+
+    public List<Car> searchForCars(Car car, Location pickUpLoc, Location dropOffLoc) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        List<Car> cars = null;
+        CriteriaBuilder builder = session.getCriteriaBuilder();
+
+        try {
+            transaction = session.beginTransaction();
+            CriteriaQuery<Car> crit = builder.createQuery(Car.class);
+            crit.from(Car.class);
+
+            cars = session.createQuery(crit).getResultList();
+            if (cars.isEmpty() || cars == null) {
+                return null;
+            }
+            return cars;
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
     }
 }

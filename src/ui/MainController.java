@@ -1,5 +1,8 @@
 package ui;
 
+import com.car_rental.Car;
+import com.car_rental.Location;
+import com.hibernateMethods.CrudMethods;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -12,6 +15,7 @@ import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.List;
 
 public class MainController {
     @FXML private Button singUpButton;
@@ -21,6 +25,8 @@ public class MainController {
     @FXML private DatePicker dropOffDate;
     @FXML private TextField pickUpLocation;
     @FXML private TextField dropOffLocation;
+
+    CrudMethods methods = new CrudMethods();
 
     public void singUpPressed(ActionEvent e) throws IOException {
         System.out.println("Rejestracja");
@@ -45,10 +51,22 @@ public class MainController {
     }
 
     public void submitPressed(ActionEvent e) throws IOException {
+        Car car = new Car();
+        Location pickUpLoc = new Location();
+        Location dropOffLoc = new Location();
+
         Alert submitError = new Alert(Alert.AlertType.ERROR);
         submitError.setContentText("Incorrect data, try again!");
-        if (pickUpLocation.getText().isEmpty() || dropOffLocation.getText().isEmpty()) {
+        if (pickUpLocation.getText().isEmpty() || dropOffLocation.getText().isEmpty() || departureDate.getValue() == null || dropOffDate == null) {
             submitError.showAndWait();
+        }
+
+        else {
+            pickUpLoc.setCity(pickUpLocation.getText());
+            dropOffLoc.setCity(dropOffLocation.getText());
+            // TODO: Wywołaj nowe okno i wywołaj funkcję, która wyświetli dane samochodów pobrane w funkcji poniżej
+            List<Car> cars = methods.searchForCars(car, pickUpLoc, dropOffLoc);
+
         }
     }
 }

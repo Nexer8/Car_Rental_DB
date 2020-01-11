@@ -6,6 +6,7 @@
         <datasource-map>
           <unit-entry name="a.xml" value="f51d543d-5556-4654-8483-bd4dd7ed35d1" />
           <unit-entry name="com:car_rental:hibernate.cfg.xml" />
+          <unit-entry name="hibernate.cfg.xml" />
         </datasource-map>
         <naming-strategy-map />
         <deploymentDescriptor name="hibernate.cfg.xml" url="file://$MODULE_DIR$/src/hibernate.cfg.xml" />
