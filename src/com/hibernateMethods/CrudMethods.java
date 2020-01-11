@@ -1,26 +1,20 @@
 package com.hibernateMethods;
 
-import org.hibernate.Criteria;
 import org.hibernate.Transaction;
-import org.hibernate.criterion.Example;
-import org.hibernate.procedure.ProcedureCall;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
-import javax.persistence.EntityManager;
-import javax.persistence.ParameterMode;
-import javax.persistence.StoredProcedureQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
+
 import com.hibernateUtils.HibernateUtils;
 
 import com.car_rental.*;
-import org.hibernate.query.Query;
 
 public class CrudMethods {
 
@@ -47,12 +41,121 @@ public class CrudMethods {
         }
         return rc;
     }
-    /**
-     * Search if the username exists in the DB through its password
-     * @param login
-     * @param password
-     * @return 1 if the username was not found it or 0 if the username was found it
-     */
+
+    public int userDataUpdate(User user) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        int rc = -1;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update User set login =: login, "
+                    + "password =: password"
+                    + " where userId =: userId");
+            query.setParameter("login", user.getLogin());
+            query.setParameter("password", user.getPassword());
+            query.setParameter("userId", user.getUserId());
+            rc = query.executeUpdate();
+            transaction.commit();
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            e.printStackTrace();
+            return rc;
+        } finally {
+            session.close();
+        }
+        return rc;
+    }
+
+    public int customerDataUpdate(Customer customer) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        int rc = -1;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update Customer set email =: email, "
+                    + "phoneNumber =: phoneNumber, "
+                    + "bankAccountNumber =: bankAccountNumber"
+                    + " where customerId =: customerId");
+            query.setParameter("email", customer.getEmail());
+            query.setParameter("phoneNumber", customer.getPhoneNumber());
+            query.setParameter("bankAccountNumber", customer.getBankAccountNumber());
+            query.setParameter("customerId", customer.getCustomerId());
+            rc = query.executeUpdate();
+            transaction.commit();
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            e.printStackTrace();
+            return rc;
+        } finally {
+            session.close();
+        }
+        return rc;
+    }
+
+    public int locationDataUpdate(Location location) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        int rc = -1;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update Location set streetAddress =: streetAddress, "
+                    + "city =: city, "
+                    + "postalCode =: postalCode"
+                    + " where locationId =: locationId");
+            query.setParameter("streetAddress", location.getStreetAddress());
+            query.setParameter("city", location.getCity());
+            query.setParameter("postalCode", location.getPostalCode());
+            query.setParameter("locationId", location.getLocationId());
+
+            rc = query.executeUpdate();
+            transaction.commit();
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            e.printStackTrace();
+            return rc;
+        } finally {
+            session.close();
+        }
+        return rc;
+    }
+
+    public int rentalDataUpdate(Rental rental) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        int rc = -1;
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("update Rental set cost =: cost, "
+                    + "startRentalDate =: startRentalDate, "
+                    + "endRentalDate =: endRentalDate, "
+                    + "carByCarId =: carId, "
+                    + "locationByStartLocationId =: startLocationId, "
+                    + "locationByEndLocationId =: endLocationId"
+                    + " where rentalId =: rentalId");
+            query.setParameter("cost", rental.getCost());
+            query.setParameter("startRentalDate", rental.getStartRentalDate());
+            query.setParameter("endRentalDate", rental.getEndRentalDate());
+            query.setParameter("carId", rental.getCarByCarId());
+            query.setParameter("startLocationId", rental.getLocationByStartLocationId());
+            query.setParameter("endLocationId", rental.getLocationByEndLocationId());
+            query.setParameter("rentalId", rental.getRentalId());
+
+            rc = query.executeUpdate();
+            transaction.commit();
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            e.printStackTrace();
+            return rc;
+        } finally {
+            session.close();
+        }
+        return rc;
+    }
+
     public User logIn(String login, String password) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
@@ -138,6 +241,25 @@ public class CrudMethods {
         }
     }
 
+    public int createRental(Rental rental) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            session.save(rental);
+            transaction.commit();
+            return 0;
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            e.printStackTrace();
+            return -1;
+        } finally {
+            session.close();
+        }
+    }
+
     public int signUp(User user, Customer customer, Location location) {
         User aux_user = new User();
         if (user == null || customer == null || location == null) {
@@ -161,10 +283,8 @@ public class CrudMethods {
 
         try {
             transaction = session.beginTransaction();
-            CriteriaQuery<Car> crit = builder.createQuery(Car.class);
-            crit.from(Car.class);
-
-            cars = session.createQuery(crit).getResultList();
+            CriteriaQuery<Car> query = builder.createQuery(Car.class);
+            Root<Car> root = query.from(Car.class);
             if (cars.isEmpty() || cars == null) {
                 return null;
             }
