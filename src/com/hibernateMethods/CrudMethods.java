@@ -76,4 +76,76 @@ public class CrudMethods {
         }
         return null;
     }
+
+    public int createLocation(Location location) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            session.save(location);
+            transaction.commit();
+            return 0;
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            e.printStackTrace();
+            return -1;
+        } finally {
+            session.close();
+        }
+    }
+
+    public int createUser(User user) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            session.save(user);
+            transaction.commit();
+            return 0;
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            e.printStackTrace();
+            return -1;
+        } finally {
+            session.close();
+        }
+    }
+
+    public int createCustomer(Customer customer) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            session.save(customer);
+            transaction.commit();
+            return 0;
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            e.printStackTrace();
+            return -1;
+        } finally {
+            session.close();
+        }
+    }
+
+    public int signUp(User user, Customer customer, Location location) {
+        User aux_user = new User();
+        if (user == null || customer == null || location == null) {
+            return -1;
+        }
+        else {
+            createUser(user);
+            createLocation(location);
+            aux_user = logIn(user.getLogin(), user.getPassword());
+            customer.setCustomerId(aux_user.getUserId());
+            createCustomer(customer);
+        }
+        return 0;
+    }
 }

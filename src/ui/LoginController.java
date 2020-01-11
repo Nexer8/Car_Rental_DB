@@ -22,7 +22,6 @@ public class LoginController {
         Alert loginSuccess = new Alert(Alert.AlertType.CONFIRMATION);
         loginSuccess.setContentText("You are now logged in!");
 
-
         if (login.getText().isEmpty() || password.getText().isEmpty()) {
             loginError.showAndWait();
             return;

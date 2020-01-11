@@ -1,9 +1,6 @@
 package com.car_rental;
 
-import javax.persistence.Basic;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.sql.Date;
 import java.util.Objects;
 
@@ -16,6 +13,7 @@ public class Customer {
     private String phoneNumber;
     private Date dateOfBirth;
     private String bankAccountNumber;
+    private User userByCustomerId;
 
     @Id
     @Column(name = "customer_id")
@@ -104,5 +102,15 @@ public class Customer {
     @Override
     public int hashCode() {
         return Objects.hash(customerId, lastName, firstName, email, phoneNumber, dateOfBirth, bankAccountNumber);
+    }
+
+    @OneToOne
+    @JoinColumn(name = "customer_id", referencedColumnName = "user_id", nullable = false)
+    public User getUserByCustomerId() {
+        return userByCustomerId;
+    }
+
+    public void setUserByCustomerId(User userByCustomerId) {
+        this.userByCustomerId = userByCustomerId;
     }
 }
