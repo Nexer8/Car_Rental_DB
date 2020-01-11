@@ -29,15 +29,30 @@ public class MainController {
     @FXML private DatePicker dropOffDate;
     @FXML private TextField pickUpLocation;
     @FXML private TextField dropOffLocation;
-    @FXML private TextField manufacture;
+    @FXML private TextField manufacturer;
     @FXML private TextField model;
     @FXML private TextField numberOfSeats;
     @FXML private TextField numberOfDoors;
     @FXML private TextField userRating;
 
+    String auxManufacturer;
+    String auxModel;
+    int auxNumberOfSeats;
+    int auxNumberOfDoors;
+    double auxUserRating;
+
     CrudMethods methods = new CrudMethods();
 
     public void okPressed(ActionEvent e) {
+        if (manufacturer.getText() != null && model.getText() != null && numberOfSeats.getText() != null
+                && numberOfDoors.getText() != null && userRating.getText() != null ) {
+            auxManufacturer = manufacturer.getText();
+            auxModel = model.getText();
+            auxNumberOfSeats = Integer.parseInt(numberOfSeats.getText());
+            auxNumberOfDoors = Integer.parseInt(numberOfDoors.getText());
+            auxUserRating = Double.valueOf(userRating.getText());
+        }
+
         final Node source = (Node) e.getSource();
         final Stage stage = (Stage) source.getScene().getWindow();
         stage.close();
@@ -101,11 +116,11 @@ public class MainController {
             rental.setStartRentalDate(new Timestamp(Date.valueOf(departureDate.getValue()).getTime()));
             rental.setEndRentalDate(new Timestamp(Date.valueOf(dropOffDate.getValue()).getTime()));
 
-            car.setManufacturer(manufacture.getText());
-            car.setModel(model.getText());
-            car.setNumberOfSeats(Integer.parseInt(numberOfSeats.getText()));
-            car.setNumberOfDoors(Integer.parseInt(numberOfDoors.getText()));
-            car.setUserRating(Double.valueOf(userRating.getText()));
+            car.setManufacturer(auxManufacturer);
+            car.setModel(auxModel);
+            car.setNumberOfSeats(auxNumberOfSeats);
+            car.setNumberOfDoors(auxNumberOfDoors);
+            car.setUserRating(auxUserRating);
             car.setArchived(false);
 
             // TODO: Wywołaj nowe okno i wywołaj funkcję, która wyświetli dane samochodów pobrane w funkcji poniżej
