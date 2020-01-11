@@ -2,6 +2,7 @@ package com.hibernateMethods;
 
 import org.hibernate.Transaction;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -275,27 +276,91 @@ public class CrudMethods {
         return 0;
     }
 
-    public List<Car> searchForCars(Car car, Location pickUpLoc, Location dropOffLoc) {
+    public boolean checkCarAvailability(Car car, Timestamp startRentalDate, Timestamp endRentalDate) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
-        List<Car> cars = null;
-        CriteriaBuilder builder = session.getCriteriaBuilder();
+        List<Integer> rentals = null;
 
         try {
             transaction = session.beginTransaction();
-            CriteriaQuery<Car> query = builder.createQuery(Car.class);
-            Root<Car> root = query.from(Car.class);
-            if (cars.isEmpty() || cars == null) {
-                return null;
+            Query query = session.createQuery("select r.rentalId from Car c JOIN Rental r where c.carId =: carId " +
+                    "and r.startRentalDate <: endRentalDate and r.endRentalDate >: startRentalDate");
+            query.setParameter("carId", car.getCarId());
+            query.setParameter("endRentalDate", endRentalDate);
+            query.setParameter("startRentalDate", startRentalDate);
+            rentals = query.list();
+            if (rentals.isEmpty() || rentals == null) {
+                return true;
             }
-            return cars;
+            else {
+                return false;
+            }
         } catch (Exception e) {
             assert transaction != null;
             transaction.rollback();
             e.printStackTrace();
-            return null;
         } finally {
             session.close();
         }
+        return false;
+    }
+
+    public List<Car> checkCarSatisfyFilters(Car car, Location location) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        List<Car> cars = null;
+
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("select c.carId, c.manufacturer, c.model, c.clazz, c.numberOfSeats, " +
+                    "c.numberOfDoors, c.dailyRentalCost, c.trunkCapacity, c.productionYear, c.color, c.power, c.transmission, " +
+                    "c.userRating, c.archived from Car c JOIN Location l " +
+                    "where c.model =: model " +
+                    "and c.manufacturer =: manufacturer " +
+                    "and c.userRating >: userRating " +
+                    "and c.numberOfSeats =: numberOfSeats " +
+                    "and c.numberOfDoors =: numberOfDoors " +
+                    "and c.archived =: archived " +
+                    "and l.city =: city"
+            );
+            query.setParameter("model", car.getModel());
+            query.setParameter("manufacturer", car.getManufacturer());
+            query.setParameter("userRating", car.getUserRating());
+            query.setParameter("numberOfSeats", car.getNumberOfSeats());
+            query.setParameter("numberOfDoors", car.getNumberOfDoors());
+            query.setParameter("archived", car.isArchived());
+            query.setParameter("city", location.getCity());
+
+            cars = query.list();
+            if (cars.isEmpty() || cars == null) {
+                return null;
+            }
+            else {
+                return cars;
+            }
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return null;
+    }
+
+    // TODO: to fix
+    public List<Car> searchForCars(Car car, Location pickUpLoc, Rental rental) {
+        List<Car> entryCars = checkCarSatisfyFilters(car, pickUpLoc);
+        List<Car> exitCars = null;
+        if (entryCars.isEmpty()) return null;
+        int idx = 0;
+
+        for (Car auxCar : entryCars) {
+            if (checkCarAvailability(auxCar, rental.getStartRentalDate(), rental.getEndRentalDate())) {
+                exitCars.set(idx, auxCar);
+                idx++;
+            }
+        }
+        return exitCars;
     }
 }
