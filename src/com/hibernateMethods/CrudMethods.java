@@ -375,7 +375,6 @@ public class CrudMethods {
         return null;
     }
 
-    // TODO: to fix
     public List<Car> searchForCars(Car car, Location pickUpLoc, Rental rental) {
         List<Car> entryCars = checkCarSatisfyFilters(car);
         List<Car> exitCars = new ArrayList<>();

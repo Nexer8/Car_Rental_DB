@@ -18,7 +18,7 @@
             <Label layoutX="29.0" layoutY="175.0" text="Number of seats" />
             <Label layoutX="33.0" layoutY="227.0" text="Number of doors" />
             <Label layoutX="31.0" layoutY="277.0" text="User rating" />
-            <TextField fx:id="manufacture" layoutX="165.0" layoutY="66.0" />
+            <TextField fx:id="manufacturer" layoutX="165.0" layoutY="66.0" />
             <TextField fx:id="model" layoutX="165.0" layoutY="119.0" />
             <TextField fx:id="numberOfSeats" layoutX="165.0" layoutY="171.0" />
             <TextField fx:id="numberOfDoors" layoutX="165.0" layoutY="223.0" />

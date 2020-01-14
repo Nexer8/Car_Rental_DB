@@ -44,14 +44,11 @@ public class MainController {
     CrudMethods methods = new CrudMethods();
 
     public void okPressed(ActionEvent e) {
-        if (manufacturer.getText() != null && model.getText() != null && numberOfSeats.getText() != null
-                && numberOfDoors.getText() != null && userRating.getText() != null ) {
-            auxManufacturer = manufacturer.getText();
-            auxModel = model.getText();
-            auxNumberOfSeats = Integer.parseInt(numberOfSeats.getText());
-            auxNumberOfDoors = Integer.parseInt(numberOfDoors.getText());
-            auxUserRating = Double.valueOf(userRating.getText());
-        }
+        if (!manufacturer.getText().isEmpty()) auxManufacturer = manufacturer.getText();
+        if (!model.getText().isEmpty()) auxModel = model.getText();
+        if (!numberOfSeats.getText().isEmpty()) auxNumberOfSeats = Integer.parseInt(numberOfSeats.getText());
+        if (!numberOfDoors.getText().isEmpty()) auxNumberOfDoors = Integer.parseInt(numberOfDoors.getText());
+        if (!userRating.getText().isEmpty()) auxUserRating = Double.valueOf(userRating.getText());
 
         final Node source = (Node) e.getSource();
         final Stage stage = (Stage) source.getScene().getWindow();
