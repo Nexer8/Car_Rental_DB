@@ -11,7 +11,7 @@ public class Rental {
     private double cost;
     private Timestamp startRentalDate;
     private Timestamp endRentalDate;
-    private Car carByCarId;
+    private int carId;
     private Location locationByStartLocationId;
     private Location locationByEndLocationId;
     private Customer customerByCustomerId;
@@ -83,15 +83,13 @@ public class Rental {
         return Objects.hash(rentalId, created, cost, startRentalDate, endRentalDate);
     }
 
-    @ManyToOne
-    @JoinColumn(name = "car_id", referencedColumnName = "car_id", nullable = false)
-    public Car getCarByCarId() {
-        return carByCarId;
+    @Basic
+    @Column(name = "car_id")
+    public int getCarId() {
+        return carId;
     }
 
-    public void setCarByCarId(Car carByCarId) {
-        this.carByCarId = carByCarId;
-    }
+    public void setCarId(int carId) { this.carId = carId; }
 
     @ManyToOne
     @JoinColumn(name = "start_location_id", referencedColumnName = "location_id", nullable = false)

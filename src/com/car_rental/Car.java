@@ -22,6 +22,7 @@ public class Car {
     private String transmission;
     private Double userRating;
     private boolean archived;
+    private int locationId;
 
     @Id
     @Column(name = "car_id")
@@ -162,6 +163,12 @@ public class Car {
     public void setArchived(boolean archived) {
         this.archived = archived;
     }
+
+    @Basic
+    @Column(name = "location_id")
+    public int getLocationId() { return locationId; }
+
+    public void setLocationId(int locationId) { this.locationId = locationId; }
 
     @Override
     public boolean equals(Object o) {

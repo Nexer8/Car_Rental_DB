@@ -3,6 +3,7 @@ package com.hibernateMethods;
 import org.hibernate.Transaction;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -139,7 +140,7 @@ public class CrudMethods {
             query.setParameter("cost", rental.getCost());
             query.setParameter("startRentalDate", rental.getStartRentalDate());
             query.setParameter("endRentalDate", rental.getEndRentalDate());
-            query.setParameter("carId", rental.getCarByCarId());
+            query.setParameter("carId", rental.getCarId());
             query.setParameter("startLocationId", rental.getLocationByStartLocationId());
             query.setParameter("endLocationId", rental.getLocationByEndLocationId());
             query.setParameter("rentalId", rental.getRentalId());
@@ -283,7 +284,7 @@ public class CrudMethods {
 
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("select r.rentalId from Car c JOIN Rental r where c.carId =: carId " +
+            Query query = session.createQuery("select r.rentalId from Rental r where r.carId =: carId " +
                     "and r.startRentalDate <: endRentalDate and r.endRentalDate >: startRentalDate");
             query.setParameter("carId", car.getCarId());
             query.setParameter("endRentalDate", endRentalDate);
@@ -305,31 +306,83 @@ public class CrudMethods {
         return false;
     }
 
-    public List<Car> checkCarSatisfyFilters(Car car, Location location) {
+    public int getLocationIdFromCity(String city) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        List<Integer> locationIds = null;
+
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("Select l.locationId from Location l where l.city =: city");
+            query.setParameter("city", city);
+
+            locationIds = query.list();
+            if (locationIds.isEmpty() || locationIds == null || locationIds.size() > 1) {
+                return -1;
+            }
+            else {
+                return locationIds.get(0);
+            }
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return -1;
+    }
+//    public List<Car> checkCarSatisfyFilters(Car car, Location location) {
+//        Session session = sessionFactory.openSession();
+//        Transaction transaction = null;
+//        List<Car> cars = null;
+//
+//        try {
+//            transaction = session.beginTransaction();
+//            Query query = session.createQuery("from Car c where  c.locationId =: locationId");
+//            query.setParameter("locationId", car.getLocationId());
+//
+//            cars = query.list();
+//            if (cars.isEmpty() || cars == null) {
+//                return null;
+//            }
+//            else {
+//                return cars;
+//            }
+//        } catch (Exception e) {
+//            assert transaction != null;
+//            transaction.rollback();
+//            e.printStackTrace();
+//        } finally {
+//            session.close();
+//        }
+//        return null;
+//
+//    }
+    public List<Car> checkCarSatisfyFilters(Car car) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
         List<Car> cars = null;
 
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("select c.carId, c.manufacturer, c.model, c.clazz, c.numberOfSeats, " +
-                    "c.numberOfDoors, c.dailyRentalCost, c.trunkCapacity, c.productionYear, c.color, c.power, c.transmission, " +
-                    "c.userRating, c.archived from Car c JOIN Location l " +
-                    "where c.model =: model " +
-                    "and c.manufacturer =: manufacturer " +
-                    "and c.userRating >: userRating " +
-                    "and c.numberOfSeats =: numberOfSeats " +
-                    "and c.numberOfDoors =: numberOfDoors " +
-                    "and c.archived =: archived " +
-                    "and l.city =: city"
-            );
-            query.setParameter("model", car.getModel());
-            query.setParameter("manufacturer", car.getManufacturer());
-            query.setParameter("userRating", car.getUserRating());
-            query.setParameter("numberOfSeats", car.getNumberOfSeats());
-            query.setParameter("numberOfDoors", car.getNumberOfDoors());
+            String hql = "from Car c " +
+                    "where c.archived =: archived and c.locationId =: locationId";
+            if (car.getModel() != null) hql += " and c.model =: model";
+            if (car.getManufacturer() != null) hql += " and c.manufacturer =: manufacturer";
+            if (car.getUserRating() != 0) hql += " and c.userRating >: userRating";
+            if (car.getNumberOfSeats() != 0) hql += " and c.numberOfSeats =: numberOfSeats";
+            if (car.getNumberOfDoors() != 0) hql += " and c.numberOfDoors =: numberOfDoors";
+
+            Query query = session.createQuery(hql);
+
+            if (car.getModel() != null) query.setParameter("model", car.getModel());
+            if (car.getManufacturer() != null) query.setParameter("manufacturer", car.getManufacturer());
+            if (car.getUserRating() != 0) query.setParameter("userRating", car.getUserRating());
+            if (car.getNumberOfSeats() != 0) query.setParameter("numberOfSeats", car.getNumberOfSeats());
+            if (car.getNumberOfDoors() != 0) query.setParameter("numberOfDoors", car.getNumberOfDoors());
             query.setParameter("archived", car.isArchived());
-            query.setParameter("city", location.getCity());
+            query.setParameter("locationId", car.getLocationId());
 
             cars = query.list();
             if (cars.isEmpty() || cars == null) {
@@ -350,15 +403,13 @@ public class CrudMethods {
 
     // TODO: to fix
     public List<Car> searchForCars(Car car, Location pickUpLoc, Rental rental) {
-        List<Car> entryCars = checkCarSatisfyFilters(car, pickUpLoc);
-        List<Car> exitCars = null;
+        List<Car> entryCars = checkCarSatisfyFilters(car);
+        List<Car> exitCars = new ArrayList<>();
         if (entryCars.isEmpty()) return null;
-        int idx = 0;
 
         for (Car auxCar : entryCars) {
             if (checkCarAvailability(auxCar, rental.getStartRentalDate(), rental.getEndRentalDate())) {
-                exitCars.set(idx, auxCar);
-                idx++;
+                exitCars.add(auxCar);
             }
         }
         return exitCars;
