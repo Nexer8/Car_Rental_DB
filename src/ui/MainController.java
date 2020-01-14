@@ -102,7 +102,7 @@ public class MainController {
         Location pickUpLoc = new Location();
         Location dropOffLoc = new Location();
         Rental rental = new Rental();
-        int pickUpLocId;
+        int pickUpLocId, dropOffLocId;
 
         Alert submitError = new Alert(Alert.AlertType.ERROR);
         submitError.setContentText("Incorrect data, try again!");
@@ -118,6 +118,10 @@ public class MainController {
             rental.setEndRentalDate(new Timestamp(Date.valueOf(dropOffDate.getValue()).getTime()));
 
             pickUpLocId = methods.getLocationIdFromCity(pickUpLocation.getText());
+            dropOffLocId = methods.getLocationIdFromCity(dropOffLocation.getText());
+
+            if (pickUpLocId == -1 || dropOffLocId == -1) submitError.showAndWait();
+
             car.setLocationId(pickUpLocId);
             car.setManufacturer(auxManufacturer);
             car.setModel(auxModel);

@@ -332,33 +332,7 @@ public class CrudMethods {
         }
         return -1;
     }
-//    public List<Car> checkCarSatisfyFilters(Car car, Location location) {
-//        Session session = sessionFactory.openSession();
-//        Transaction transaction = null;
-//        List<Car> cars = null;
-//
-//        try {
-//            transaction = session.beginTransaction();
-//            Query query = session.createQuery("from Car c where  c.locationId =: locationId");
-//            query.setParameter("locationId", car.getLocationId());
-//
-//            cars = query.list();
-//            if (cars.isEmpty() || cars == null) {
-//                return null;
-//            }
-//            else {
-//                return cars;
-//            }
-//        } catch (Exception e) {
-//            assert transaction != null;
-//            transaction.rollback();
-//            e.printStackTrace();
-//        } finally {
-//            session.close();
-//        }
-//        return null;
-//
-//    }
+
     public List<Car> checkCarSatisfyFilters(Car car) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
