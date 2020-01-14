@@ -133,7 +133,7 @@ public class CrudMethods {
             Query query = session.createQuery("update Rental set cost =: cost, "
                     + "startRentalDate =: startRentalDate, "
                     + "endRentalDate =: endRentalDate, "
-                    + "carByCarId =: carId, "
+                    + "carId =: carId, "
                     + "locationByStartLocationId =: startLocationId, "
                     + "locationByEndLocationId =: endLocationId"
                     + " where rentalId =: rentalId");
@@ -184,6 +184,31 @@ public class CrudMethods {
             session.close();
         }
         return null;
+    }
+
+    public List<Rental> getRentalsFromUser(User user) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        List<Rental> rentals = null;
+
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from Rental r where r.customerByCustomerId =: customerId");
+            rentals = query.setParameter("customerId", user.getUserId()).list();
+            if (rentals.isEmpty() || rentals == null) {
+                return null;
+            }
+            else {
+                return rentals;
+            }
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
     }
 
     public int createLocation(Location location) {
