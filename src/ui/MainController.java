@@ -78,7 +78,7 @@ public class MainController {
     }
 
     public void singUpPressed(ActionEvent e) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("registration.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/registration.fxml"));
         Stage registrationStage = new Stage();
         registrationStage.setTitle("Sing Up");
         registrationStage.setResizable(false);
@@ -87,7 +87,7 @@ public class MainController {
     }
 
     public void singInPressed(ActionEvent e) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/login.fxml"));
         Stage registrationStage = new Stage();
         registrationStage.setTitle("Sing In");
         registrationStage.setResizable(false);
@@ -96,7 +96,7 @@ public class MainController {
     }
 
     public void addFilters(ActionEvent e) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("filters.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/filters.fxml"));
         Stage registrationStage = new Stage();
         registrationStage.setTitle("Set filters");
         registrationStage.setResizable(false);

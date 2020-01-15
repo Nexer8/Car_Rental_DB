@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.PasswordField?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.RegistrationController">
+   <children>
+      <AnchorPane layoutX="113.0" layoutY="21.0" prefHeight="501.0" prefWidth="374.0" style="-fx-background-color: #52a4de;">
+         <children>
+            <Text fill="WHITE" layoutX="89.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Edit account">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Text>
+            <Label layoutX="38.0" layoutY="84.0" text="Login:" textFill="WHITE" />
+            <TextField fx:id="login" layoutX="175.0" layoutY="80.0" />
+            <Label layoutX="39.0" layoutY="121.0" text="Password:" textFill="WHITE" />
+            <PasswordField fx:id="password" layoutX="175.0" layoutY="117.0" />
+            <Label layoutX="37.0" layoutY="159.0" text="First name:" textFill="WHITE" />
+            <TextField fx:id="firstName" layoutX="175.0" layoutY="155.0" />
+            <Label layoutX="38.0" layoutY="197.0" text="Last name:" textFill="WHITE" />
+            <TextField fx:id="lastName" layoutX="175.0" layoutY="193.0" />
+            <Label layoutX="37.0" layoutY="233.0" text="E-mail:" textFill="WHITE" />
+            <TextField fx:id="email" layoutX="175.0" layoutY="229.0" />
+            <Label layoutX="38.0" layoutY="269.0" text="Phone number:" textFill="WHITE" />
+            <TextField fx:id="phone" layoutX="174.0" layoutY="265.0" prefHeight="26.0" prefWidth="149.0" />
+            <TextField fx:id="bankAcc" layoutX="174.0" layoutY="298.0" />
+            <Label layoutX="38.0" layoutY="339.0" text="Date of birth:" textFill="WHITE" />
+            <DatePicker fx:id="dateOfBirth" layoutX="174.0" layoutY="334.0" prefHeight="26.0" prefWidth="149.0" />
+            <Label layoutX="42.0" layoutY="378.0" text="City:" textFill="WHITE" />
+            <TextField fx:id="city" layoutX="175.0" layoutY="374.0" />
+            <Label layoutX="41.0" layoutY="414.0" text="Postal code:" textFill="WHITE" />
+            <TextField fx:id="postalCode" layoutX="175.0" layoutY="410.0" />
+            <Label layoutX="40.0" layoutY="453.0" text="Street address:" textFill="WHITE" />
+            <TextField fx:id="address" layoutX="175.0" layoutY="449.0" />
+            <Label layoutX="35.0" layoutY="302.0" text="Bank account number:" textFill="WHITE" />
+         </children>
+      </AnchorPane>
+      <Button fx:id="editButton" defaultButton="true" layoutX="261.0" layoutY="541.0" mnemonicParsing="false" onAction="#edditButtonPressed" prefHeight="34.0" prefWidth="78.0" style="-fx-background-color: #52a4de;" text="Edit" textFill="WHITE" />
+   </children>
+</AnchorPane>
