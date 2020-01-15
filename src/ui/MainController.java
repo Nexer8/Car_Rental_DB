@@ -78,33 +78,27 @@ public class MainController {
     }
 
     public void singUpPressed(ActionEvent e) throws IOException {
-        System.out.println("Rejestracja");
-
         Parent root = FXMLLoader.load(getClass().getResource("registration.fxml"));
         Stage registrationStage = new Stage();
-        registrationStage.setTitle("Rejestracja");
+        registrationStage.setTitle("Sing Up");
         registrationStage.setResizable(false);
         registrationStage.setScene(new Scene(root, 600, 600));
         registrationStage.show();
     }
 
     public void singInPressed(ActionEvent e) throws IOException {
-        System.out.println("Logowanie");
-
         Parent root = FXMLLoader.load(getClass().getResource("login.fxml"));
         Stage registrationStage = new Stage();
-        registrationStage.setTitle("Login");
+        registrationStage.setTitle("Sing In");
         registrationStage.setResizable(false);
         registrationStage.setScene(new Scene(root, 600, 600));
         registrationStage.show();
     }
 
     public void addFilters(ActionEvent e) throws IOException {
-        System.out.println("Podaj filtry");
-
         Parent root = FXMLLoader.load(getClass().getResource("filters.fxml"));
         Stage registrationStage = new Stage();
-        registrationStage.setTitle("Podaj filtry");
+        registrationStage.setTitle("Set filters");
         registrationStage.setResizable(false);
         registrationStage.setScene(new Scene(root, 600, 600));
         registrationStage.show();
