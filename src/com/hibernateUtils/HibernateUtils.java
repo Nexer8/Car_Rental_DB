@@ -2,12 +2,7 @@ package com.hibernateUtils;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-/**
- * Utils of HIbernate that allow to access the DB
- * @author David Moreno
- * @version 1.0
- * @since 1.0
- */
+
 public class HibernateUtils {
     private static final SessionFactory SESSION_FACTORY = buildSessionFactory();
     /**

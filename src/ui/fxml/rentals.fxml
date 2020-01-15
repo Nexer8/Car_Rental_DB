@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.RegistrationController">
+   <children>
+      <AnchorPane layoutX="23.0" layoutY="51.0" prefHeight="477.0" prefWidth="567.0" style="-fx-background-color: #52a4de;">
+         <children>
+            <Text fill="WHITE" layoutX="218.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Rentals">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Text>
+            <ListView layoutX="43.0" layoutY="81.0" prefHeight="373.0" prefWidth="500.0" />
+            <AnchorPane layoutX="17.0" layoutY="81.0" prefHeight="91.0" prefWidth="524.0">
+               <children>
+                  <Label layoutX="42.0" layoutY="5.0" text="Pick up location:" />
+                  <Label layoutX="42.0" layoutY="14.0" prefHeight="34.0" prefWidth="115.0" text="Departure date:" />
+                  <Label layoutX="41.0" layoutY="39.0" text="Drop of location:" />
+                  <Label layoutX="41.0" layoutY="57.0" text="Drop off date:" />
+                  <Label layoutX="298.0" layoutY="5.0" text="Manufacturer:" />
+                  <Label layoutX="298.0" layoutY="37.0" text="Model:" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="17.0" layoutY="172.0" prefHeight="91.0" prefWidth="524.0">
+               <children>
+                  <Label layoutX="42.0" layoutY="5.0" text="Pick up location:" />
+                  <Label layoutX="42.0" layoutY="14.0" prefHeight="34.0" prefWidth="115.0" text="Departure date:" />
+                  <Label layoutX="41.0" layoutY="39.0" text="Drop of location:" />
+                  <Label layoutX="41.0" layoutY="57.0" text="Drop off date:" />
+                  <Label layoutX="298.0" layoutY="5.0" text="Manufacturer:" />
+                  <Label layoutX="298.0" layoutY="37.0" text="Model:" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="17.0" layoutY="263.0" prefHeight="91.0" prefWidth="524.0">
+               <children>
+                  <Label layoutX="42.0" layoutY="5.0" text="Pick up location:" />
+                  <Label layoutX="42.0" layoutY="14.0" prefHeight="34.0" prefWidth="115.0" text="Departure date:" />
+                  <Label layoutX="41.0" layoutY="39.0" text="Drop of location:" />
+                  <Label layoutX="41.0" layoutY="57.0" text="Drop off date:" />
+                  <Label layoutX="298.0" layoutY="5.0" text="Manufacturer:" />
+                  <Label layoutX="298.0" layoutY="37.0" text="Model:" />
+               </children>
+            </AnchorPane>
+            <AnchorPane layoutX="17.0" layoutY="362.0" prefHeight="91.0" prefWidth="524.0">
+               <children>
+                  <Label layoutX="42.0" layoutY="5.0" text="Pick up location:" />
+                  <Label layoutX="42.0" layoutY="14.0" prefHeight="34.0" prefWidth="115.0" text="Departure date:" />
+                  <Label layoutX="41.0" layoutY="39.0" text="Drop of location:" />
+                  <Label layoutX="41.0" layoutY="57.0" text="Drop off date:" />
+                  <Label layoutX="298.0" layoutY="5.0" text="Manufacturer:" />
+                  <Label layoutX="298.0" layoutY="37.0" text="Model:" />
+               </children>
+            </AnchorPane>
+         </children>
+      </AnchorPane>
+   </children>
+</AnchorPane>
