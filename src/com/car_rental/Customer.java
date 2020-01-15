@@ -14,6 +14,7 @@ public class Customer {
     private Date dateOfBirth;
     private String bankAccountNumber;
     private User userByCustomerId;
+    private int locationId;
 
     @Id
     @Column(name = "customer_id")
@@ -113,4 +114,9 @@ public class Customer {
     public void setUserByCustomerId(User userByCustomerId) {
         this.userByCustomerId = userByCustomerId;
     }
+
+    @Basic
+    @Column(name = "location_id")
+    public int getLocationId() { return locationId; }
+    public void setLocationId(int locationId) { this.locationId = locationId; }
 }

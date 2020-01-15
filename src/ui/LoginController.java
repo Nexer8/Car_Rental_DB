@@ -14,6 +14,7 @@ public class LoginController {
     @FXML private TextField password;
     CrudMethods methods = new CrudMethods();
     User user = new User();
+    int rc;
 
     public void singInPressed(ActionEvent e) throws IOException {
         Alert loginError = new Alert(Alert.AlertType.ERROR);
@@ -31,8 +32,11 @@ public class LoginController {
             loginError.showAndWait();
         }
         else {
-            methods.userStatusUpdate(user, true);
-            loginSuccess.showAndWait();
+            rc = methods.userStatusUpdate(user, true);
+            if (rc == -1) loginError.showAndWait();
+            else {
+                loginSuccess.showAndWait();
+            }
             final Node source = (Node) e.getSource();
             final Stage stage = (Stage) source.getScene().getWindow();
             stage.close();

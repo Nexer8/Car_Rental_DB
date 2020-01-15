@@ -288,24 +288,28 @@ public class CrudMethods {
     }
 
     public int signUp(User user, Customer customer, Location location) {
-        User aux_user = new User();
+        User aux_user;
+        int rc;
         if (user == null || customer == null || location == null) {
-            return -1;
+            rc = -1;
         }
         else {
-            createUser(user);
-            createLocation(location);
+            rc = createUser(user);
+            if (rc == -1) return rc;
+            rc = createLocation(location);
+            if (rc == -1) return rc;
             aux_user = logIn(user.getLogin(), user.getPassword());
             customer.setCustomerId(aux_user.getUserId());
-            createCustomer(customer);
+            customer.setLocationId(getLocationIdFromCity(location.getCity()));
+            rc = createCustomer(customer);
         }
-        return 0;
+        return rc;
     }
 
     public boolean checkCarAvailability(Car car, Timestamp startRentalDate, Timestamp endRentalDate) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
-        List<Integer> rentals = null;
+        List<Integer> rentals;
 
         try {
             transaction = session.beginTransaction();

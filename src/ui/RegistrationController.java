@@ -38,12 +38,25 @@ public class RegistrationController {
         signUpError.setContentText("Incorrect data, try again!");
         int rc;
 
+        String phoneRegex = "^\\d{9}$";
+        String bankAccRegex = "^\\d{32}$";
+        String textRegex = "[a-zA-Z]+";
+        String emailRegex = "^(.+)@(.+)$";
+        String postalCodeRegex = "^[0-9]{5}(?:-[0-9]{4})?$";
+
         Alert signUpSuccess = new Alert(Alert.AlertType.CONFIRMATION);
         signUpSuccess.setContentText("You can now log in!");
 
-        if (login.getText().isEmpty() || password.getText().isEmpty() || firstName.getText().isEmpty() || lastName.getText().isEmpty()
-        || email.getText().isEmpty() || phone.getText().isEmpty() || bankAcc.getText().isEmpty() || dateOfBirth.getValue() == null
-        || city.getText().isEmpty() || postalCode.getText().isEmpty() || address.getText().isEmpty()) {
+        if (login.getText().isEmpty() || !login.getText().matches(textRegex) || password.getText().isEmpty()
+                || firstName.getText().isEmpty() || !firstName.getText().matches(textRegex)
+                || lastName.getText().isEmpty() || !lastName.getText().matches(textRegex)
+                || email.getText().isEmpty() || !email.getText().matches(emailRegex)
+                || phone.getText().isEmpty() || !phone.getText().matches(phoneRegex)
+                || bankAcc.getText().isEmpty() || !bankAcc.getText().matches(bankAccRegex)
+                || dateOfBirth.getValue() == null
+                || city.getText().isEmpty() || !city.getText().matches(textRegex)
+                || postalCode.getText().isEmpty() || !postalCode.getText().matches(postalCodeRegex)
+                || address.getText().isEmpty()) {
             signUpError.showAndWait();
             return;
         }

@@ -44,15 +44,31 @@ public class MainController {
     CrudMethods methods = new CrudMethods();
 
     public void okPressed(ActionEvent e) {
-        if (!manufacturer.getText().isEmpty()) auxManufacturer = manufacturer.getText();
-        if (!model.getText().isEmpty()) auxModel = model.getText();
-        if (!numberOfSeats.getText().isEmpty()) auxNumberOfSeats = Integer.parseInt(numberOfSeats.getText());
-        if (!numberOfDoors.getText().isEmpty()) auxNumberOfDoors = Integer.parseInt(numberOfDoors.getText());
-        if (!userRating.getText().isEmpty()) auxUserRating = Double.valueOf(userRating.getText());
+        String sdNumberRegex = "[0-9]+";
+        String userRatingRegex = "[0-5]+";
+        String manufacturerRegex = "[a-zA-Z]+";
 
-        final Node source = (Node) e.getSource();
-        final Stage stage = (Stage) source.getScene().getWindow();
-        stage.close();
+        Alert okError = new Alert(Alert.AlertType.ERROR);
+        okError.setContentText("Incorrect data, try again!");
+
+        if (!manufacturer.getText().isEmpty() && !manufacturer.getText().matches(manufacturerRegex) ||
+                !numberOfSeats.getText().isEmpty() && !numberOfSeats.getText().matches(sdNumberRegex) ||
+                !numberOfDoors.getText().isEmpty() && !numberOfDoors.getText().matches(sdNumberRegex) ||
+                !userRating.getText().isEmpty() && !userRating.getText().matches(userRatingRegex)) {
+            okError.showAndWait();
+        }
+
+        else {
+            if (!manufacturer.getText().isEmpty() && manufacturer.getText().matches(manufacturerRegex)) auxManufacturer = manufacturer.getText();
+            if (!model.getText().isEmpty()) auxModel = model.getText();
+            if (!numberOfSeats.getText().isEmpty() && numberOfSeats.getText().matches(sdNumberRegex)) auxNumberOfSeats = Integer.parseInt(numberOfSeats.getText());
+            if (!numberOfDoors.getText().isEmpty() && numberOfDoors.getText().matches(sdNumberRegex)) auxNumberOfDoors = Integer.parseInt(numberOfDoors.getText());
+            if (!userRating.getText().isEmpty() && userRating.getText().matches(userRatingRegex)) auxUserRating = Double.valueOf(userRating.getText());
+
+            final Node source = (Node) e.getSource();
+            final Stage stage = (Stage) source.getScene().getWindow();
+            stage.close();
+        }
     }
 
     public void closePressed(ActionEvent e) {
