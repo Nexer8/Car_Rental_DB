@@ -407,7 +407,8 @@ public class CrudMethods {
 
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from Car c");
+            Query query = session.createQuery("Select c from Car c");
+            cars = query.list();
             if (cars.isEmpty() || cars == null) {
                 return null;
             }
@@ -432,6 +433,7 @@ public class CrudMethods {
         try {
             transaction = session.beginTransaction();
             Query query = session.createQuery("from Rental r");
+            rentals = query.list();
             if (rentals.isEmpty() || rentals == null) {
                 return null;
             }

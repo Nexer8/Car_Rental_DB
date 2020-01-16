@@ -3,29 +3,22 @@ package ui;
 import com.car_rental.Car;
 import com.car_rental.Location;
 import com.car_rental.Rental;
-import com.car_rental.User;
 import com.hibernateMethods.CrudMethods;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
-import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
-import javax.swing.*;
 import java.io.IOException;
-import java.net.URL;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.ResourceBundle;
+
 
 public class MainController {
     @FXML private Button signUpButton;
@@ -42,12 +35,13 @@ public class MainController {
     @FXML private TextField userRating;
     @FXML private MenuButton account;
 
-    String auxManufacturer;
-    String auxModel;
-    int auxNumberOfSeats;
-    int auxNumberOfDoors;
-    double auxUserRating;
+    static String auxManufacturer;
+    static String auxModel;
+    static int auxNumberOfSeats;
+    static int auxNumberOfDoors;
+    static double auxUserRating;
     static List<Car> foundCars = new ArrayList<>();
+    static List<Rental> foundRental = new ArrayList<>();
 
     CrudMethods methods = new CrudMethods();
 
@@ -159,9 +153,13 @@ public class MainController {
     }
 
     public void myRentalsPressed(ActionEvent e) throws IOException {
+        // Not working
         Alert signOutError = new Alert(Alert.AlertType.ERROR);
         if (LoginController.user != null && LoginController.user.isLoginStatus()) {
-            Parent root = FXMLLoader.load(getClass().getResource("fxml/rentals.fxml"));
+
+            foundRental = methods.getRentalsFromUser(LoginController.user);
+
+            Parent root = FXMLLoader.load(getClass().getResource("fxml/rentalsForUser.fxml"));
             Stage registrationStage = new Stage();
             registrationStage.setTitle("See your rentals");
             registrationStage.setResizable(false);
@@ -175,6 +173,8 @@ public class MainController {
     }
 
     public void showAllCarsPressed(ActionEvent e) throws IOException {
+        foundCars = methods.getCars();
+
         Parent root = FXMLLoader.load(getClass().getResource("fxml/allCars.fxml"));
         Stage registrationStage = new Stage();
         registrationStage.setTitle("All cars");
@@ -184,7 +184,9 @@ public class MainController {
     }
 
     public void showAllRentalsPressed(ActionEvent e) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("fxml/rentals.fxml"));
+        foundRental = methods.getRentals();
+
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/allRentals.fxml"));
         Stage registrationStage = new Stage();
         registrationStage.setTitle("All rentals");
         registrationStage.setResizable(false);
@@ -224,7 +226,10 @@ public class MainController {
             pickUpLocId = methods.getLocationIdFromCity(pickUpLocation.getText());
             dropOffLocId = methods.getLocationIdFromCity(dropOffLocation.getText());
 
-            if (pickUpLocId == -1 || dropOffLocId == -1) submitError.showAndWait();
+            if (pickUpLocId == -1 || dropOffLocId == -1) {
+                submitError.showAndWait();
+                return;
+            }
 
             car.setLocationId(pickUpLocId);
             car.setManufacturer(auxManufacturer);
@@ -236,7 +241,7 @@ public class MainController {
 
             foundCars = methods.searchForCars(car, pickUpLoc, rental);
 
-            Parent root = FXMLLoader.load(getClass().getResource("fxml/carsforuser.fxml"));
+            Parent root = FXMLLoader.load(getClass().getResource("fxml/carsForUser.fxml"));
             Stage registrationStage = new Stage();
             registrationStage.setTitle("Available cars");
             registrationStage.setResizable(false);
@@ -244,8 +249,4 @@ public class MainController {
             registrationStage.showAndWait();
         }
     }
-
-
-
-
 }

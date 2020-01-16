@@ -5,19 +5,22 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
-import javafx.scene.control.Alert;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-
-
-public class AvailableCarsController implements Initializable {
-    @FXML private TableView<Car> availableCarsTable;
+public class AllCarsController implements Initializable {
+    @FXML
+    private TableView<Car> availableCarsTable;
     @FXML private TableColumn<Car, String> manufacturerColumn;
     @FXML private TableColumn<Car, String> modelColumn;
     @FXML private TableColumn<Car, Integer> numOfSeatsColumn;
@@ -49,9 +52,13 @@ public class AvailableCarsController implements Initializable {
         });
     }
 
-    public void rentPressed(ActionEvent e) {
-        Alert okError = new Alert(Alert.AlertType.ERROR);
-        okError.setContentText("Not working yet :)");
-        okError.showAndWait();
+    public void editPressed() throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/modifyCar.fxml"));
+        Stage registrationStage = new Stage();
+        registrationStage.setTitle("Modify car");
+        registrationStage.setResizable(false);
+        registrationStage.setScene(new Scene(root, 600, 600));
+        registrationStage.show();
     }
-}
+
+ }

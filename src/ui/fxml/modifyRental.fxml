@@ -8,7 +8,7 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1">
    <children>
       <AnchorPane layoutX="117.0" layoutY="145.0" prefHeight="279.0" prefWidth="365.0" style="-fx-background-color: #52a4de;">
          <children>
@@ -29,6 +29,6 @@
             <DatePicker fx:id="dropOffDate" layoutX="171.0" layoutY="232.0" prefHeight="26.0" prefWidth="149.0" />
          </children>
       </AnchorPane>
-      <Button fx:id="Submit" defaultButton="true" layoutX="261.0" layoutY="515.0" mnemonicParsing="false" onAction="#submitRentalPressed" prefHeight="34.0" prefWidth="78.0" style="-fx-background-color: #52a4de;" text="Submit" textFill="WHITE" />
+      <Button fx:id="Submit" defaultButton="true" layoutX="261.0" layoutY="515.0" mnemonicParsing="false" prefHeight="34.0" prefWidth="78.0" style="-fx-background-color: #52a4de;" text="Submit" textFill="WHITE" />
    </children>
 </AnchorPane>
