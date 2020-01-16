@@ -21,7 +21,7 @@ public class LoginController {
 
     int rc;
 
-    public void singInPressed(ActionEvent e) throws IOException {
+    public void signInPressed(ActionEvent e) throws IOException {
         Alert loginError = new Alert(Alert.AlertType.ERROR);
         loginError.setContentText("Incorrect data, try again!");
 

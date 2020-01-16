@@ -10,6 +10,7 @@ import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.fxml.Initializable;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
@@ -19,14 +20,16 @@ import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.IOException;
+import java.net.URL;
 import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.ResourceBundle;
 
 public class MainController {
-    @FXML private Button singUpButton;
-    @FXML private Button singInButton;
+    @FXML private Button signUpButton;
+    @FXML private Button signInButton;
     @FXML private Button submit;
     @FXML private DatePicker departureDate;
     @FXML private DatePicker dropOffDate;
@@ -38,12 +41,6 @@ public class MainController {
     @FXML private TextField numberOfDoors;
     @FXML private TextField userRating;
     @FXML private MenuButton account;
-    @FXML private TableView availableCarsTable;
-    @FXML private TableColumn manufacturerColumn;
-    @FXML private TableColumn modelColumn;
-    @FXML private TableColumn numOfSeatsColumn;
-    @FXML private TableColumn numOfDoorsColumn;
-    @FXML private TableColumn userRatingColumn;
 
     String auxManufacturer;
     String auxModel;
@@ -53,10 +50,6 @@ public class MainController {
     static List<Car> foundCars = new ArrayList<>();
 
     CrudMethods methods = new CrudMethods();
-
-    public void rentPressed(ActionEvent e) {
-
-    }
 
     public void okPressed(ActionEvent e) {
         String sdNumberRegex = "[0-9]+";
@@ -101,17 +94,17 @@ public class MainController {
         registrationStage.show();
     }
 
-    public void singInPressed(ActionEvent e) throws IOException {
+    public void signInPressed(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("fxml/login.fxml"));
         Stage logInStage = new Stage();
-        logInStage.setTitle("Sing In");
+        logInStage.setTitle("Sign In");
         logInStage.setResizable(false);
         logInStage.setScene(new Scene(root, 600, 600));
         logInStage.showAndWait();
 
         if (LoginController.user.isLoginStatus() && !LoginController.user.isAdmin()) {
-            singUpButton.setVisible(false);
-            singInButton.setVisible(false);
+            signUpButton.setVisible(false);
+            signInButton.setVisible(false);
             account.setVisible(true);
         }
     }
@@ -136,8 +129,8 @@ public class MainController {
                     stage.close();
                 }
                 else {
-                    singUpButton.setVisible(true);
-                    singInButton.setVisible(true);
+                    signUpButton.setVisible(true);
+                    signInButton.setVisible(true);
                     account.setVisible(false);
                 }
                 signOutSuccess.showAndWait();
@@ -184,7 +177,7 @@ public class MainController {
     public void showAllCarsPressed(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("fxml/allCars.fxml"));
         Stage registrationStage = new Stage();
-        registrationStage.setTitle("Set filters");
+        registrationStage.setTitle("All cars");
         registrationStage.setResizable(false);
         registrationStage.setScene(new Scene(root, 600, 600));
         registrationStage.show();
@@ -193,7 +186,7 @@ public class MainController {
     public void showAllRentalsPressed(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("fxml/rentals.fxml"));
         Stage registrationStage = new Stage();
-        registrationStage.setTitle("Set filters");
+        registrationStage.setTitle("All rentals");
         registrationStage.setResizable(false);
         registrationStage.setScene(new Scene(root, 600, 600));
         registrationStage.show();
@@ -243,29 +236,16 @@ public class MainController {
 
             foundCars = methods.searchForCars(car, pickUpLoc, rental);
 
+            Parent root = FXMLLoader.load(getClass().getResource("fxml/carsforuser.fxml"));
+            Stage registrationStage = new Stage();
+            registrationStage.setTitle("Available cars");
+            registrationStage.setResizable(false);
+            registrationStage.setScene(new Scene(root, 600, 600));
+            registrationStage.showAndWait();
         }
     }
 
-    public void initializeCarTable(ActionEvent e) throws IOException {
-//        TableColumn manufacturer = new TableColumn("manufacturer");
-//        TableColumn model = new TableColumn("model");
-//        TableColumn numOfSeats = new TableColumn("numberOfSeats");
-//        TableColumn numOfDoors = new TableColumn("numberOfDoors");
-//        TableColumn userRating = new TableColumn("userRating");
-//        availableCarsTable.getColumns().addAll(manufacturer, model, numOfSeats, numOfDoors, userRating);
-        final ObservableList<Car> data = FXCollections.observableArrayList();
-        for (Car fcar : foundCars) {
-            data.add(fcar);
-        }
 
-        Parent root = FXMLLoader.load(getClass().getResource("fxml/carsforuser.fxml"));
-        Stage registrationStage = new Stage();
-        registrationStage.setTitle("Set filters");
-        registrationStage.setResizable(false);
-        registrationStage.setScene(new Scene(root, 600, 600));
-        registrationStage.showAndWait();
 
-        availableCarsTable.setItems(data);
 
-    }
 }

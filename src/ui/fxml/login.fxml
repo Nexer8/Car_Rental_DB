@@ -8,11 +8,11 @@
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.LoginController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.LoginController">
    <children>
       <AnchorPane cache="true" layoutX="138.0" layoutY="140.0" prefHeight="247.0" prefWidth="322.0" style="-fx-background-color: #52a4de;">
          <children>
-            <Text fill="WHITE" layoutX="107.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sing in">
+            <Text fill="WHITE" layoutX="107.0" layoutY="78.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Sign in">
                <font>
                   <Font size="36.0" />
                </font>
@@ -23,6 +23,6 @@
             <Label layoutX="33.0" layoutY="183.0" text="Password:" textFill="WHITE" />
          </children>
       </AnchorPane>
-      <Button defaultButton="true" layoutX="264.0" layoutY="432.0" mnemonicParsing="false" onAction="#singInPressed" prefHeight="32.0" prefWidth="71.0" style="-fx-background-color: #52a4de;" text="Sing in" textFill="WHITE" />
+      <Button defaultButton="true" layoutX="264.0" layoutY="432.0" mnemonicParsing="false" onAction="#signInPressed" prefHeight="32.0" prefWidth="71.0" style="-fx-background-color: #52a4de;" text="Sign in" textFill="WHITE" />
    </children>
 </AnchorPane>

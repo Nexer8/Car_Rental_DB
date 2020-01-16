@@ -1,11 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.*?>
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.Cursor?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.DatePicker?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.MenuButton?>
+<?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainController">
    <children>
       <MenuButton fx:id="account" layoutX="36.0" layoutY="14.0" mnemonicParsing="false" style="-fx-background-color: #52a4de;" text="Account" textFill="WHITE" visible="false">
         <items>
@@ -14,11 +20,11 @@
             <MenuItem fx:id="singOutMenuButton" mnemonicParsing="false" onAction="#signOutPressed" text="Sing out" />
         </items>
       </MenuButton>
-      <Button fx:id="singInButton" defaultButton="true" layoutX="448.0" layoutY="14.0" mnemonicParsing="false" onAction="#singInPressed" style="-fx-background-color: #52a4de;" text="Sign In" textFill="WHITE">
+      <Button fx:id="signInButton" defaultButton="true" layoutX="448.0" layoutY="14.0" mnemonicParsing="false" onAction="#signInPressed" style="-fx-background-color: #52a4de;" text="Sign In" textFill="WHITE">
          <cursor>
             <Cursor fx:constant="DEFAULT" />
          </cursor></Button>
-      <Button fx:id="singUpButton" defaultButton="true" layoutX="453.0" layoutY="14.0" mnemonicParsing="false" onAction="#singUpPressed" style="-fx-background-color: #52a4de;" text="Sign Up" textFill="WHITE" AnchorPane.rightAnchor="14.600000000000023" AnchorPane.topAnchor="14.0" />
+      <Button fx:id="signUpButton" defaultButton="true" layoutX="453.0" layoutY="14.0" mnemonicParsing="false" onAction="#singUpPressed" style="-fx-background-color: #52a4de;" text="Sign Up" textFill="WHITE" AnchorPane.rightAnchor="14.600000000000023" AnchorPane.topAnchor="14.0" />
       <ImageView fitHeight="261.0" fitWidth="606.0" layoutX="-3.0" layoutY="55.0" pickOnBounds="true" preserveRatio="true">
          <image>
             <Image url="@../pictures/car_rental_main.jpg" />
