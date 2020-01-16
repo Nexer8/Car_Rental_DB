@@ -1,13 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.text.Font?>
-<?import javafx.scene.text.Text?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/8.0.172-ea" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.AllRentalsController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.AllRentalsController">
     <children>
         <AnchorPane layoutX="22.0" layoutY="14.0" prefHeight="502.0" prefWidth="557.0" style="-fx-background-color: #52a4de;">
             <children>
@@ -16,13 +13,13 @@
                         <Font size="36.0" />
                     </font>
                 </Text>
-                <TableView fx:id="availableCarsTable" layoutX="11.0" layoutY="71.0" prefHeight="386.0" prefWidth="524.0">
+                <TableView fx:id="availableRentalsTable" layoutX="11.0" layoutY="71.0" prefHeight="386.0" prefWidth="524.0">
                     <columns>
-                        <TableColumn fx:id="manufacturerColumn" prefWidth="125.0" text="Pick up" />
-                        <TableColumn fx:id="modelColumn" prefWidth="100.0" text="Date" />
-                        <TableColumn fx:id="numOfSeatsColumn" prefWidth="134.0" text="Drop off location" />
-                        <TableColumn fx:id="numOfDoorsColumn" prefWidth="107.0" text="Date" />
-                        <TableColumn fx:id="userRatingColumn" prefWidth="57.0" text="Price" />
+                        <TableColumn fx:id="pickUpLoc" prefWidth="125.0" text="Pick up" />
+                        <TableColumn fx:id="pickUpDate" prefWidth="100.0" text="Date" />
+                        <TableColumn fx:id="dropOffLoc" prefWidth="134.0" text="Drop off location" />
+                        <TableColumn fx:id="dropOffDate" prefWidth="107.0" text="Date" />
+                        <TableColumn fx:id="price" prefWidth="57.0" text="Price" />
                     </columns>
                 </TableView>
             </children>

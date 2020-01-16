@@ -130,15 +130,15 @@ public class CrudMethods {
                     + "startRentalDate =: startRentalDate, "
                     + "endRentalDate =: endRentalDate, "
                     + "carId =: carId, "
-                    + "locationByStartLocationId =: startLocationId, "
-                    + "locationByEndLocationId =: endLocationId"
+                    + "startLocationId =: startLocationId, "
+                    + "endLocationId =: endLocationId"
                     + " where rentalId =: rentalId");
             query.setParameter("cost", rental.getCost());
             query.setParameter("startRentalDate", rental.getStartRentalDate());
             query.setParameter("endRentalDate", rental.getEndRentalDate());
             query.setParameter("carId", rental.getCarId());
-            query.setParameter("startLocationId", rental.getLocationByStartLocationId());
-            query.setParameter("endLocationId", rental.getLocationByEndLocationId());
+            query.setParameter("startLocationId", rental.getStartLocationId());
+            query.setParameter("endLocationId", rental.getEndLocationId());
             query.setParameter("rentalId", rental.getRentalId());
 
             rc = query.executeUpdate();
@@ -189,7 +189,7 @@ public class CrudMethods {
 
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("from Rental r where r.customerByCustomerId =: customerId");
+            Query query = session.createQuery("from Rental r where r.customerId =: customerId");
             rentals = query.setParameter("customerId", user.getUserId()).list();
             if (rentals.isEmpty() || rentals == null) {
                 return null;

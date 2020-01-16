@@ -12,9 +12,9 @@ public class Rental {
     private Timestamp startRentalDate;
     private Timestamp endRentalDate;
     private int carId;
-    private Location locationByStartLocationId;
-    private Location locationByEndLocationId;
-    private Customer customerByCustomerId;
+    private int startLocationId;
+    private int endLocationId;
+    private int customerId;
 
     @Id
     @Column(name = "rental_id")
@@ -91,33 +91,33 @@ public class Rental {
 
     public void setCarId(int carId) { this.carId = carId; }
 
-    @ManyToOne
-    @JoinColumn(name = "start_location_id", referencedColumnName = "location_id", nullable = false)
-    public Location getLocationByStartLocationId() {
-        return locationByStartLocationId;
+    @Basic
+    @Column(name = "start_location_id")
+    public int getStartLocationId() {
+        return startLocationId;
     }
 
-    public void setLocationByStartLocationId(Location locationByStartLocationId) {
-        this.locationByStartLocationId = locationByStartLocationId;
+    public void setStartLocationId(int startLocationId) {
+        this.startLocationId = startLocationId;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "end_location_id", referencedColumnName = "location_id", nullable = false)
-    public Location getLocationByEndLocationId() {
-        return locationByEndLocationId;
+    @Basic
+    @Column(name = "end_location_id")
+    public int getEndLocationId() {
+        return endLocationId;
     }
 
-    public void setLocationByEndLocationId(Location locationByEndLocationId) {
-        this.locationByEndLocationId = locationByEndLocationId;
+    public void setEndLocationId(int endLocationId) {
+        this.endLocationId = endLocationId;
     }
 
-    @ManyToOne
-    @JoinColumn(name = "customer_id", referencedColumnName = "customer_id")
-    public Customer getCustomerByCustomerId() {
-        return customerByCustomerId;
+    @Basic
+    @Column(name = "customer_id")
+    public int getCustomerId() {
+        return customerId;
     }
 
-    public void setCustomerByCustomerId(Customer customerByCustomerId) {
-        this.customerByCustomerId = customerByCustomerId;
+    public void setCustomerId(int customerId) {
+        this.customerId = customerId;
     }
 }

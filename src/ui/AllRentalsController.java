@@ -21,35 +21,34 @@ import java.util.ResourceBundle;
 
 public class AllRentalsController implements Initializable {
     //TODO: change change column
-    @FXML private TableView<Rental> availableCarsTable;
-    @FXML private TableColumn<Rental, String> manufacturerColumn;
-    @FXML private TableColumn<Rental, Timestamp> modelColumn;
-    @FXML private TableColumn<Rental, Integer> numOfSeatsColumn;
-    @FXML private TableColumn<Rental, Timestamp> numOfDoorsColumn;
-    @FXML private TableColumn<Rental, Double> userRatingColumn;
+    @FXML private TableView<Rental> availableRentalsTable;
+    @FXML private TableColumn<Rental, String> pickUpLoc;
+    @FXML private TableColumn<Rental, Timestamp> pickUpDate;
+    @FXML private TableColumn<Rental, Integer> dropOffLoc;
+    @FXML private TableColumn<Rental, Timestamp> dropOffDate;
+    @FXML private TableColumn<Rental, Double> price;
 
-    MainController mainController;
     ObservableList<Rental> selectedRental;
 
     public ObservableList<Rental> getRental() {
         ObservableList<Rental> data = FXCollections.observableArrayList();
-        for (Rental frental : mainController.foundRental) {
+        for (Rental frental : MainController.foundRentals) {
             data.add(frental);
         }
         return data;
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        manufacturerColumn.setCellValueFactory(new PropertyValueFactory<>("locationByStartLocationId"));
-        modelColumn.setCellValueFactory(new PropertyValueFactory<>("startRentalDate"));
-        numOfSeatsColumn.setCellValueFactory(new PropertyValueFactory<>("locationByEndLocationId"));
-        numOfDoorsColumn.setCellValueFactory(new PropertyValueFactory<>("endRentalDate"));
-        userRatingColumn.setCellValueFactory(new PropertyValueFactory<>("cost"));
+        pickUpLoc.setCellValueFactory(new PropertyValueFactory<>("startLocationId"));
+        pickUpDate.setCellValueFactory(new PropertyValueFactory<>("startRentalDate"));
+        dropOffLoc.setCellValueFactory(new PropertyValueFactory<>("endLocationId"));
+        dropOffDate.setCellValueFactory(new PropertyValueFactory<>("endRentalDate"));
+        price.setCellValueFactory(new PropertyValueFactory<>("cost"));
 
-        availableCarsTable.setItems(getRental());
+        availableRentalsTable.setItems(getRental());
 
-        availableCarsTable.setOnMouseClicked(e -> {
-            selectedRental = availableCarsTable.getSelectionModel().getSelectedItems();
+        availableRentalsTable.setOnMouseClicked(e -> {
+            selectedRental = availableRentalsTable.getSelectionModel().getSelectedItems();
         });
     }
 

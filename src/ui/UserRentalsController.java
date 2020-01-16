@@ -28,21 +28,22 @@ public class UserRentalsController implements Initializable {
     @FXML private TableColumn<Rental, Timestamp> numOfDoorsColumn;
     @FXML private TableColumn<Rental, Double> userRatingColumn;
 
-    MainController mainController;
+
     ObservableList<Rental> selectedRental;
 
     public ObservableList<Rental> getRental() {
         ObservableList<Rental> data = FXCollections.observableArrayList();
-        for (Rental frental : mainController.foundRental) {
+        if (MainController.foundRentals == null) return null;
+        for (Rental frental : MainController.foundRentals) {
             data.add(frental);
         }
         return data;
     }
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        manufacturerColumn.setCellValueFactory(new PropertyValueFactory<>("locationByStartLocationId"));
+        manufacturerColumn.setCellValueFactory(new PropertyValueFactory<>("startLocationId"));
         modelColumn.setCellValueFactory(new PropertyValueFactory<>("startRentalDate"));
-        numOfSeatsColumn.setCellValueFactory(new PropertyValueFactory<>("locationByEndLocationId"));
+        numOfSeatsColumn.setCellValueFactory(new PropertyValueFactory<>("endLocationId"));
         numOfDoorsColumn.setCellValueFactory(new PropertyValueFactory<>("endRentalDate"));
         userRatingColumn.setCellValueFactory(new PropertyValueFactory<>("cost"));
 

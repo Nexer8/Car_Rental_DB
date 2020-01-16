@@ -41,7 +41,11 @@ public class MainController {
     static int auxNumberOfDoors;
     static double auxUserRating;
     static List<Car> foundCars = new ArrayList<>();
-    static List<Rental> foundRental = new ArrayList<>();
+    static List<Rental> foundRentals = new ArrayList<>();
+    static Date auxDepartureDate;
+    static Date auxDropOffDate;
+    static int auxPickUpLocationId;
+    static int auxDropOffLocationId;
 
     CrudMethods methods = new CrudMethods();
 
@@ -155,9 +159,15 @@ public class MainController {
     public void myRentalsPressed(ActionEvent e) throws IOException {
         // Not working
         Alert signOutError = new Alert(Alert.AlertType.ERROR);
+        Alert noRentalsFoundError = new Alert(Alert.AlertType.ERROR);
         if (LoginController.user != null && LoginController.user.isLoginStatus()) {
 
-            foundRental = methods.getRentalsFromUser(LoginController.user);
+            foundRentals = methods.getRentalsFromUser(LoginController.user);
+
+            if (foundRentals == null) {
+                noRentalsFoundError.showAndWait();
+                return;
+            }
 
             Parent root = FXMLLoader.load(getClass().getResource("fxml/rentalsForUser.fxml"));
             Stage registrationStage = new Stage();
@@ -184,7 +194,7 @@ public class MainController {
     }
 
     public void showAllRentalsPressed(ActionEvent e) throws IOException {
-        foundRental = methods.getRentals();
+        foundRentals = methods.getRentals();
 
         Parent root = FXMLLoader.load(getClass().getResource("fxml/allRentals.fxml"));
         Stage registrationStage = new Stage();
@@ -220,11 +230,18 @@ public class MainController {
             pickUpLoc.setCity(pickUpLocation.getText());
             dropOffLoc.setCity(dropOffLocation.getText());
 
+
+            auxDepartureDate = Date.valueOf(departureDate.getValue());
+            auxDropOffDate = Date.valueOf(dropOffDate.getValue());
+
             rental.setStartRentalDate(new Timestamp(Date.valueOf(departureDate.getValue()).getTime()));
             rental.setEndRentalDate(new Timestamp(Date.valueOf(dropOffDate.getValue()).getTime()));
 
             pickUpLocId = methods.getLocationIdFromCity(pickUpLocation.getText());
             dropOffLocId = methods.getLocationIdFromCity(dropOffLocation.getText());
+
+            auxPickUpLocationId = pickUpLocId;
+            auxDropOffLocationId = dropOffLocId;
 
             if (pickUpLocId == -1 || dropOffLocId == -1) {
                 submitError.showAndWait();
