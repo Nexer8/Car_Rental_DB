@@ -44,7 +44,7 @@ public class RegistrationController {
         String emailRegex = "^(.+)@(.+)$";
         String postalCodeRegex = "^[0-9]{5}(?:-[0-9]{4})?$";
 
-        Alert signUpSuccess = new Alert(Alert.AlertType.CONFIRMATION);
+        Alert signUpSuccess = new Alert(Alert.AlertType.INFORMATION);
         signUpSuccess.setContentText("You can now log in!");
 
         if (login.getText().isEmpty() || !login.getText().matches(textRegex) || password.getText().isEmpty()

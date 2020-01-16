@@ -10,12 +10,10 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Alert;
-import javafx.scene.control.Button;
-import javafx.scene.control.DatePicker;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.stage.Stage;
 
+import javax.swing.*;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
@@ -34,6 +32,7 @@ public class MainController {
     @FXML private TextField numberOfSeats;
     @FXML private TextField numberOfDoors;
     @FXML private TextField userRating;
+    @FXML private MenuButton account;
 
     String auxManufacturer;
     String auxModel;
@@ -88,8 +87,97 @@ public class MainController {
 
     public void singInPressed(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("fxml/login.fxml"));
+        Stage logInStage = new Stage();
+        logInStage.setTitle("Sing In");
+        logInStage.setResizable(false);
+        logInStage.setScene(new Scene(root, 600, 600));
+        logInStage.showAndWait();
+
+        if (LoginController.user.isLoginStatus() && !LoginController.user.isAdmin()) {
+            singUpButton.setVisible(false);
+            singInButton.setVisible(false);
+            account.setVisible(true);
+        }
+    }
+
+    public void signOutPressed(ActionEvent e) throws IOException {
+        int rc;
+        Alert signOutSuccess = new Alert(Alert.AlertType.INFORMATION);
+        signOutSuccess.setContentText("You have logged out!");
+        Alert signOutError = new Alert(Alert.AlertType.ERROR);
+        if (LoginController.user != null && LoginController.user.isLoginStatus()) {
+            rc = methods.userStatusUpdate(LoginController.user, false);
+            if (rc != 1) {
+                signOutError.showAndWait();
+            }
+            else {
+                LoginController.user.setLoginStatus(false);
+
+                if (LoginController.user.isAdmin()) {
+                    final Node source = (Node) e.getSource();
+                    final Stage stage = (Stage) source.getScene().getWindow();
+
+                    stage.close();
+                }
+                else {
+                    singUpButton.setVisible(true);
+                    singInButton.setVisible(true);
+                    account.setVisible(false);
+                }
+                signOutSuccess.showAndWait();
+            }
+        }
+        else {
+            signOutError.setContentText("You have to sign in first!");
+            signOutError.showAndWait();
+        }
+    }
+
+    public void editAccountPressed(ActionEvent e) throws IOException {
+        Alert signOutError = new Alert(Alert.AlertType.ERROR);
+        if (LoginController.user != null && LoginController.user.isLoginStatus()) {
+            Parent root = FXMLLoader.load(getClass().getResource("fxml/editAccount.fxml"));
+            Stage registrationStage = new Stage();
+            registrationStage.setTitle("Edit account");
+            registrationStage.setResizable(false);
+            registrationStage.setScene(new Scene(root, 600, 600));
+            registrationStage.show();
+        }
+        else {
+            signOutError.setContentText("You have to sign in first!");
+            signOutError.showAndWait();
+        }
+    }
+
+    public void myRentalsPressed(ActionEvent e) throws IOException {
+        Alert signOutError = new Alert(Alert.AlertType.ERROR);
+        if (LoginController.user != null && LoginController.user.isLoginStatus()) {
+            Parent root = FXMLLoader.load(getClass().getResource("fxml/rentals.fxml"));
+            Stage registrationStage = new Stage();
+            registrationStage.setTitle("See your rentals");
+            registrationStage.setResizable(false);
+            registrationStage.setScene(new Scene(root, 600, 600));
+            registrationStage.show();
+        }
+        else {
+            signOutError.setContentText("You have to sign in first!");
+            signOutError.showAndWait();
+        }
+    }
+
+    public void showAllCarsPressed(ActionEvent e) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/allCars.fxml"));
         Stage registrationStage = new Stage();
-        registrationStage.setTitle("Sing In");
+        registrationStage.setTitle("Set filters");
+        registrationStage.setResizable(false);
+        registrationStage.setScene(new Scene(root, 600, 600));
+        registrationStage.show();
+    }
+
+    public void showAllRentalsPressed(ActionEvent e) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/rentals.fxml"));
+        Stage registrationStage = new Stage();
+        registrationStage.setTitle("Set filters");
         registrationStage.setResizable(false);
         registrationStage.setScene(new Scene(root, 600, 600));
         registrationStage.show();
