@@ -400,6 +400,54 @@ public class CrudMethods {
         return null;
     }
 
+    public List<Car> getCars() {
+        List<Car> cars = new ArrayList<>();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from Car c");
+            if (cars.isEmpty() || cars == null) {
+                return null;
+            }
+            else {
+                return cars;
+            }
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
+    public List<Rental> getRentals() {
+        List<Rental> rentals = new ArrayList<>();
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("from Rental r");
+            if (rentals.isEmpty() || rentals == null) {
+                return null;
+            }
+            else {
+                return rentals;
+            }
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            e.printStackTrace();
+            return null;
+        } finally {
+            session.close();
+        }
+    }
+
     public List<Car> searchForCars(Car car, Location pickUpLoc, Rental rental) {
         List<Car> entryCars = checkCarSatisfyFilters(car);
         List<Car> exitCars = new ArrayList<>();

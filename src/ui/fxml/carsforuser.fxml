@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.MainController">
+   <children>
+      <AnchorPane layoutX="19.0" layoutY="21.0" prefHeight="502.0" prefWidth="557.0" style="-fx-background-color: #52a4de;">
+         <children>
+            <Text fill="WHITE" layoutX="179.0" layoutY="53.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Cars for you:">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Text>
+            <TableView fx:id="availableCarsTable" layoutX="35.0" layoutY="71.0" prefHeight="386.0" prefWidth="500.0">
+              <columns>
+                <TableColumn fx:id="manufacturerColumn" prefWidth="121.60003662109375" text="Manufacturer" />
+                <TableColumn fx:id="modelColumn" prefWidth="71.199951171875" text="Model" />
+                  <TableColumn fx:id="numOfSeatsColumn" prefWidth="112.0" text="Number of seats" />
+                  <TableColumn fx:id="numOfDoorsColumn" prefWidth="112.7999267578125" text="Number of doors" />
+                  <TableColumn fx:id="userRatingColumn" prefWidth="70.4000244140625" text="User rating" />
+              </columns>
+            </TableView>
+         </children>
+      </AnchorPane>
+      <Button fx:id="rentButton" defaultButton="true" layoutX="261.0" layoutY="541.0" mnemonicParsing="false" onAction="#rentPressed" prefHeight="34.0" prefWidth="78.0" style="-fx-background-color: #52a4de;" text="Rent" textFill="WHITE" />
+   </children>
+</AnchorPane>

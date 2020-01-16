@@ -3,7 +3,10 @@ package ui;
 import com.car_rental.Car;
 import com.car_rental.Location;
 import com.car_rental.Rental;
+import com.car_rental.User;
 import com.hibernateMethods.CrudMethods;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,12 +14,14 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import javax.swing.*;
 import java.io.IOException;
 import java.sql.Date;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.List;
 
 public class MainController {
@@ -33,14 +38,25 @@ public class MainController {
     @FXML private TextField numberOfDoors;
     @FXML private TextField userRating;
     @FXML private MenuButton account;
+    @FXML private TableView availableCarsTable;
+    @FXML private TableColumn manufacturerColumn;
+    @FXML private TableColumn modelColumn;
+    @FXML private TableColumn numOfSeatsColumn;
+    @FXML private TableColumn numOfDoorsColumn;
+    @FXML private TableColumn userRatingColumn;
 
     String auxManufacturer;
     String auxModel;
     int auxNumberOfSeats;
     int auxNumberOfDoors;
     double auxUserRating;
+    static List<Car> foundCars = new ArrayList<>();
 
     CrudMethods methods = new CrudMethods();
+
+    public void rentPressed(ActionEvent e) {
+
+    }
 
     public void okPressed(ActionEvent e) {
         String sdNumberRegex = "[0-9]+";
@@ -225,8 +241,31 @@ public class MainController {
             car.setUserRating(auxUserRating);
             car.setArchived(false);
 
-            // TODO: Wywołaj nowe okno i wywołaj funkcję, która wyświetli dane samochodów pobrane w funkcji poniżej
-            List<Car> cars = methods.searchForCars(car, pickUpLoc, rental);
+            foundCars = methods.searchForCars(car, pickUpLoc, rental);
+
         }
+    }
+
+    public void initializeCarTable(ActionEvent e) throws IOException {
+//        TableColumn manufacturer = new TableColumn("manufacturer");
+//        TableColumn model = new TableColumn("model");
+//        TableColumn numOfSeats = new TableColumn("numberOfSeats");
+//        TableColumn numOfDoors = new TableColumn("numberOfDoors");
+//        TableColumn userRating = new TableColumn("userRating");
+//        availableCarsTable.getColumns().addAll(manufacturer, model, numOfSeats, numOfDoors, userRating);
+        final ObservableList<Car> data = FXCollections.observableArrayList();
+        for (Car fcar : foundCars) {
+            data.add(fcar);
+        }
+
+        Parent root = FXMLLoader.load(getClass().getResource("fxml/carsforuser.fxml"));
+        Stage registrationStage = new Stage();
+        registrationStage.setTitle("Set filters");
+        registrationStage.setResizable(false);
+        registrationStage.setScene(new Scene(root, 600, 600));
+        registrationStage.showAndWait();
+
+        availableCarsTable.setItems(data);
+
     }
 }
