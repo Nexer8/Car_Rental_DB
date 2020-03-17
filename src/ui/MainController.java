@@ -1,8 +1,6 @@
 package ui;
 
-import com.car_rental.Car;
-import com.car_rental.Location;
-import com.car_rental.Rental;
+import com.car_rental.*;
 import com.hibernateMethods.CrudMethods;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -34,6 +32,19 @@ public class MainController {
     @FXML private TextField numberOfDoors;
     @FXML private TextField userRating;
     @FXML private MenuButton account;
+
+    @FXML private Button editButton;
+    @FXML private TextField login;
+    @FXML private TextField password;
+    @FXML private TextField firstName;
+    @FXML private TextField lastName;
+    @FXML private TextField email;
+    @FXML private TextField phone;
+    @FXML private TextField bankAcc;
+    @FXML private DatePicker dateOfBirth;
+    @FXML private TextField city;
+    @FXML private TextField postalCode;
+    @FXML private TextField address;
 
     static String auxManufacturer;
     static String auxModel;
@@ -156,8 +167,80 @@ public class MainController {
         }
     }
 
+    public void editButtonPressed(ActionEvent e) throws IOException {
+        User user = new User();
+        Customer customer = new Customer();
+        Location location = new Location();
+        CrudMethods methods = new CrudMethods();
+        Alert dataEditError = new Alert(Alert.AlertType.ERROR);
+        dataEditError.setContentText("Incorrect data, try again!");
+
+        String phoneRegex = "^\\d{9}$";
+        String bankAccRegex = "^\\d{32}$";
+        String textRegex = "[a-zA-Z]+";
+        String emailRegex = "^(.+)@(.+)$";
+        String postalCodeRegex = "^[0-9]{5}(?:-[0-9]{4})?$";
+
+        Alert dataEditSuccess = new Alert(Alert.AlertType.INFORMATION);
+        dataEditSuccess.setContentText("Account data edited correctly!");
+
+        if (login.getText().isEmpty() && !login.getText().matches(textRegex) && password.getText().isEmpty()
+                && firstName.getText().isEmpty() && !firstName.getText().matches(textRegex)
+                && lastName.getText().isEmpty() && !lastName.getText().matches(textRegex)
+                && email.getText().isEmpty() && !email.getText().matches(emailRegex)
+                && phone.getText().isEmpty() && !phone.getText().matches(phoneRegex)
+                && bankAcc.getText().isEmpty() && !bankAcc.getText().matches(bankAccRegex)
+                && dateOfBirth.getValue() == null
+                && city.getText().isEmpty() && !city.getText().matches(textRegex)
+                && postalCode.getText().isEmpty() && !postalCode.getText().matches(postalCodeRegex)
+                && address.getText().isEmpty()) {
+            dataEditError.showAndWait();
+            return;
+        }
+        user.setUserId(LoginController.user.getUserId());
+        user.setLogin(login.getText());
+        user.setPassword(password.getText());
+        user.setAdmin(false);
+        user.setLoginStatus(false);
+
+        customer.setCustomerId(LoginController.user.getUserId());
+        customer.setFirstName(firstName.getText());
+        customer.setLastName(lastName.getText());
+        customer.setEmail(email.getText());
+        customer.setPhoneNumber(phone.getText());
+        customer.setBankAccountNumber(bankAcc.getText());
+        if (dateOfBirth.getValue() == null) customer.setDateOfBirth(null);
+        else {
+            customer.setDateOfBirth(Date.valueOf(dateOfBirth.getValue()));
+        }
+
+        int lrc = -1;
+        if (!city.getText().isEmpty() && city.getText().matches(textRegex)
+                && !postalCode.getText().isEmpty() && postalCode.getText().matches(postalCodeRegex)
+                && !address.getText().isEmpty()) {
+            location.setCity(city.getText());
+            location.setPostalCode(postalCode.getText());
+            location.setStreetAddress(address.getText());
+            lrc = methods.createLocation(location);
+        }
+
+        customer.setLocationId(methods.getLocationIdFromCity(city.getText()));
+
+        int urc = methods.userDataUpdate(user);
+        int crc = methods.customerDataUpdate(customer);
+
+        if (urc == 1 || crc == 1 || lrc == 0) {
+            dataEditSuccess.showAndWait();
+            final Node source = (Node) e.getSource();
+            final Stage stage = (Stage) source.getScene().getWindow();
+            stage.close();
+        }
+        else {
+            dataEditError.showAndWait();
+        }
+    }
+
     public void myRentalsPressed(ActionEvent e) throws IOException {
-        // Not working
         Alert signOutError = new Alert(Alert.AlertType.ERROR);
         Alert noRentalsFoundError = new Alert(Alert.AlertType.ERROR);
         if (LoginController.user != null && LoginController.user.isLoginStatus()) {

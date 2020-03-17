@@ -23,15 +23,11 @@
     <autoscroll-to-editor value="false" />
     <autoscroll-from-editor value="true" />
     <show-object-properties value="true" />
-    <loaded-nodes>
-      <connection connection-id="2fb53b4d-490e-418e-b3d4-df138192fbfb">
-        <schema name="car_rental" object-types="table, view" />
-      </connection>
-    </loaded-nodes>
+    <loaded-nodes />
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="2fb53b4d-490e-418e-b3d4-df138192fbfb">
-      <console name="Connection" type="STANDARD" schema="car_rental" session="Main">Select login, password, login_status, user_id from user</console>
+      <console name="Connection" type="STANDARD" schema="car_rental" session="Main"><![CDATA[Select login, password, login_status, user_id from user]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseFileManager">

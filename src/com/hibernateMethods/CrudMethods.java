@@ -2,12 +2,14 @@ package com.hibernateMethods;
 
 import org.hibernate.Transaction;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.hql.internal.ast.QuerySyntaxException;
 import org.hibernate.query.Query;
 
 import com.hibernateUtils.HibernateUtils;
@@ -44,16 +46,36 @@ public class CrudMethods {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
         int rc = -1;
+        int counter = 0;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("update User set login =: login, "
-                    + "password =: password"
-                    + " where userId =: userId");
-            query.setParameter("login", user.getLogin());
-            query.setParameter("password", user.getPassword());
-            query.setParameter("userId", user.getUserId());
-            rc = query.executeUpdate();
-            transaction.commit();
+            String hql = "update User set";
+            if (!user.getLogin().isEmpty()) {
+                hql += " login =: login";
+                counter++;
+            }
+
+            if (counter != 0) {
+                hql += ", ";
+            }
+
+            if (!user.getPassword().isEmpty()) {
+                hql += " password =: password";
+                counter++;
+            }
+
+            if (counter != 0) {
+                hql += " where userId =: userId";
+
+                Query query = session.createQuery(hql);
+
+                if (!user.getLogin().isEmpty()) query.setParameter("login", user.getLogin());
+                if (!user.getPassword().isEmpty()) query.setParameter("password", user.getPassword());
+                if (user.getUserId() != 0) query.setParameter("userId", user.getUserId());
+
+                rc = query.executeUpdate();
+                transaction.commit();
+            }
         } catch (Exception e) {
             assert transaction != null;
             transaction.rollback();
@@ -69,18 +91,61 @@ public class CrudMethods {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
         int rc = -1;
+        int counter = 0;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("update Customer set email =: email, "
-                    + "phoneNumber =: phoneNumber, "
-                    + "bankAccountNumber =: bankAccountNumber"
-                    + " where customerId =: customerId");
-            query.setParameter("email", customer.getEmail());
-            query.setParameter("phoneNumber", customer.getPhoneNumber());
-            query.setParameter("bankAccountNumber", customer.getBankAccountNumber());
-            query.setParameter("customerId", customer.getCustomerId());
-            rc = query.executeUpdate();
-            transaction.commit();
+
+            String hql = "update Customer set";
+            if (!customer.getEmail().isEmpty()) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " email =: email";
+                counter++;
+            }
+            if (!customer.getPhoneNumber().isEmpty()) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " phoneNumber =: phoneNumber";
+                counter++;
+            }
+            if (!customer.getBankAccountNumber().isEmpty()) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " bankAccountNumber =: bankAccountNumber";
+                counter++;
+            }
+            if (customer.getLocationId() != -1) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " locationId =: locationId";
+                counter++;
+            }
+            if (customer.getDateOfBirth() != null) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " dateOfBirth =: dateOfBirth";
+                counter++;
+            }
+
+            if (counter != 0) {
+                hql += " where customerId =: customerId";
+                Query query = session.createQuery(hql);
+                if (!customer.getEmail().isEmpty()) query.setParameter("email", customer.getEmail());
+                if (!customer.getPhoneNumber().isEmpty()) query.setParameter("phoneNumber", customer.getPhoneNumber());
+                if (!customer.getBankAccountNumber().isEmpty()) query.setParameter("bankAccountNumber", customer.getBankAccountNumber());
+                if (customer.getLocationId() != -1) query.setParameter("locationId", customer.getLocationId());
+                if (customer.getDateOfBirth() != null) query.setParameter("dateOfBirth", customer.getDateOfBirth());
+                if (customer.getCustomerId() != 0) query.setParameter("customerId", customer.getCustomerId());
+
+                rc = query.executeUpdate();
+                transaction.commit();
+            }
+
         } catch (Exception e) {
             assert transaction != null;
             transaction.rollback();
@@ -96,16 +161,41 @@ public class CrudMethods {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
         int rc = -1;
+        int counter = 0;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("update Location set streetAddress =: streetAddress, "
-                    + "city =: city, "
-                    + "postalCode =: postalCode"
-                    + " where locationId =: locationId");
-            query.setParameter("streetAddress", location.getStreetAddress());
-            query.setParameter("city", location.getCity());
-            query.setParameter("postalCode", location.getPostalCode());
-            query.setParameter("locationId", location.getLocationId());
+
+            String hql = "update Location set ";
+            if (!location.getStreetAddress().isEmpty()) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " streetAddress =: streetAddress";
+                counter++;
+            }
+            if (!location.getCity().isEmpty()) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " city =: city";
+                counter++;
+            }
+            if (!location.getPostalCode().isEmpty()) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " postalCode =: postalCode";
+                counter++;
+            }
+
+            hql += " where locationId =: locationId";
+
+            Query query = session.createQuery(hql);
+
+            if (!location.getStreetAddress().isEmpty()) query.setParameter("streetAddress", location.getStreetAddress());
+            if (!location.getCity().isEmpty()) query.setParameter("city", location.getCity());
+            if (!location.getPostalCode().isEmpty()) query.setParameter("postalCode", location.getPostalCode());
+            if (location.getLocationId() != -1) query.setParameter("locationId", location.getLocationId());
 
             rc = query.executeUpdate();
             transaction.commit();
