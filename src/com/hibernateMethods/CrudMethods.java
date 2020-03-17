@@ -157,6 +157,120 @@ public class CrudMethods {
         return rc;
     }
 
+    public int carDataUpdate(Car car) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        int rc = -1;
+        int counter = 0;
+        try {
+            transaction = session.beginTransaction();
+
+            String hql = "update Car set";
+            if (!car.getManufacturer().isEmpty()) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " manufacturer =: manufacturer";
+                counter++;
+            }
+            if (!car.getModel().isEmpty()) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " model =: model";
+                counter++;
+            }
+            if (!car.getClazz().isEmpty()) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " clazz =: clazz";
+                counter++;
+            }
+            if (car.getNumberOfSeats() != -1) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " numberOfSeats =: numberOfSeats";
+                counter++;
+            }
+            if (car.getNumberOfDoors() != -1) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " numberOfDoors =: numberOfDoors";
+                counter++;
+            }
+            if (car.getTrunkCapacity() != -1) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " trunkCapacity =: trunkCapacity";
+                counter++;
+            }
+            if (car.getDailyRentalCost() != -1) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " dailyRentalCost =: dailyRentalCost";
+                counter++;
+            }
+            if (car.getProductionYear() != -1) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " productionYear =: productionYear";
+                counter++;
+            }
+            if (!car.getColor().isEmpty()) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " color =: color";
+                counter++;
+            }
+            if (!car.getTransmission().isEmpty()) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " transmission =: transmission";
+                counter++;
+            }
+            if (counter != 0) hql += ",";
+            hql += " archived =: archived";
+            counter++;
+
+            if (counter != 0) {
+                hql += " where carId =: carId";
+                Query query = session.createQuery(hql);
+                if (!car.getManufacturer().isEmpty()) query.setParameter("manufacturer", car.getManufacturer());
+                if (!car.getModel().isEmpty()) query.setParameter("model", car.getModel());
+                if (!car.getClazz().isEmpty()) query.setParameter("clazz", car.getClazz());
+                if (car.getNumberOfSeats() != -1) query.setParameter("numberOfSeats", car.getNumberOfSeats());
+                if (car.getNumberOfDoors() != -1) query.setParameter("numberOfDoors", car.getNumberOfDoors());
+                if (car.getTrunkCapacity() != -1) query.setParameter("trunkCapacity", car.getTrunkCapacity());
+                if (car.getDailyRentalCost() != -1) query.setParameter("dailyRentalCost", car.getDailyRentalCost());
+                if (car.getProductionYear() != -1) query.setParameter("productionYear", car.getProductionYear());
+                if (!car.getColor().isEmpty()) query.setParameter("color", car.getColor());
+                if (!car.getTransmission().isEmpty()) query.setParameter("transmission", car.getTransmission());
+                query.setParameter("archived", car.isArchived());
+                if (car.getCarId() != 0) query.setParameter("carId", car.getCarId());
+
+                rc = query.executeUpdate();
+                transaction.commit();
+            }
+
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            e.printStackTrace();
+            return rc;
+        } finally {
+            session.close();
+        }
+        return rc;
+    }
+
     public int locationDataUpdate(Location location) {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;

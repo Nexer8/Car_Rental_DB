@@ -4,16 +4,16 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.RegistrationController">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="600.0" style="-fx-background-color: #ffffff;" xmlns="http://javafx.com/javafx/10.0.2-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ui.CarEditionController">
    <children>
       <AnchorPane layoutX="117.0" layoutY="33.0" prefHeight="489.0" prefWidth="381.0" style="-fx-background-color: #52a4de;">
          <children>
             <TextField fx:id="manufacturerField" layoutX="172.0" layoutY="62.0" />
             <TextField fx:id="modelField" layoutX="172.0" layoutY="93.0" />
-            <TextField fx:id="ClassField" layoutX="172.0" layoutY="127.0" />
+            <TextField fx:id="classField" layoutX="172.0" layoutY="127.0" />
             <TextField fx:id="numberOfSeatsField" layoutX="172.0" layoutY="160.0" />
             <TextField fx:id="numberOfDoorsField" layoutX="171.0" layoutY="192.0" />
-            <TextField fx:id="dailyRentalCost" layoutX="171.0" layoutY="228.0" prefHeight="26.0" prefWidth="149.0" />
+            <TextField fx:id="dailyRentalCostField" layoutX="171.0" layoutY="228.0" prefHeight="26.0" prefWidth="149.0" />
             <TextField fx:id="trunkCapacityField" layoutX="171.0" layoutY="262.0" />
             <TextField fx:id="productionYearField" layoutX="171.0" layoutY="295.0" />
             <TextField fx:id="colorField" layoutX="172.0" layoutY="328.0" />
@@ -38,6 +38,6 @@
             <Label layoutX="42.0" layoutY="398.0" text="Transmission:" textFill="WHITE" />
          </children>
       </AnchorPane>
-      <Button defaultButton="true" layoutX="280.0" layoutY="551.0" mnemonicParsing="false" onAction="#singUpPressed" prefHeight="34.0" prefWidth="78.0" style="-fx-background-color: #52a4de;" text="Submit" textFill="WHITE" />
+      <Button fx:id="submitButton" defaultButton="true" layoutX="280.0" layoutY="551.0" mnemonicParsing="false" onAction="#submitButtonPressed" prefHeight="34.0" prefWidth="78.0" style="-fx-background-color: #52a4de;" text="Submit" textFill="WHITE" />
    </children>
 </AnchorPane>

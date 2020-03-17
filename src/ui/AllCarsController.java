@@ -1,21 +1,23 @@
 package ui;
 
 import com.car_rental.Car;
+import com.hibernateMethods.CrudMethods;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.Stage;
 
 import java.io.IOException;
 import java.net.URL;
+import java.sql.Date;
 import java.util.ResourceBundle;
 
 public class AllCarsController implements Initializable {
@@ -28,7 +30,7 @@ public class AllCarsController implements Initializable {
     @FXML private TableColumn<Car, Double> userRatingColumn;
 
     MainController mainController;
-    ObservableList<Car> selectedCar;
+    static Car selectedCar;
 
     public ObservableList<Car> getCar() {
         ObservableList<Car> data = FXCollections.observableArrayList();
@@ -48,11 +50,11 @@ public class AllCarsController implements Initializable {
         availableCarsTable.setItems(getCar());
 
         availableCarsTable.setOnMouseClicked(e -> {
-            selectedCar = availableCarsTable.getSelectionModel().getSelectedItems();
+            selectedCar = availableCarsTable.getSelectionModel().getSelectedItem();
         });
     }
 
-    public void editPressed() throws IOException {
+    public void editPressed(ActionEvent e) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("fxml/modifyCar.fxml"));
         Stage registrationStage = new Stage();
         registrationStage.setTitle("Modify car");
@@ -60,5 +62,4 @@ public class AllCarsController implements Initializable {
         registrationStage.setScene(new Scene(root, 600, 600));
         registrationStage.show();
     }
-
  }
