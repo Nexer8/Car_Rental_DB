@@ -328,25 +328,63 @@ public class CrudMethods {
         Session session = sessionFactory.openSession();
         Transaction transaction = null;
         int rc = -1;
+        int counter = 0;
         try {
             transaction = session.beginTransaction();
-            Query query = session.createQuery("update Rental set cost =: cost, "
-                    + "startRentalDate =: startRentalDate, "
-                    + "endRentalDate =: endRentalDate, "
-                    + "carId =: carId, "
-                    + "startLocationId =: startLocationId, "
-                    + "endLocationId =: endLocationId"
-                    + " where rentalId =: rentalId");
-            query.setParameter("cost", rental.getCost());
-            query.setParameter("startRentalDate", rental.getStartRentalDate());
-            query.setParameter("endRentalDate", rental.getEndRentalDate());
-            query.setParameter("carId", rental.getCarId());
-            query.setParameter("startLocationId", rental.getStartLocationId());
-            query.setParameter("endLocationId", rental.getEndLocationId());
-            query.setParameter("rentalId", rental.getRentalId());
 
-            rc = query.executeUpdate();
-            transaction.commit();
+            String hql = "update Rental set ";
+            if (rental.getCost() != -1) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " cost =: cost";
+                counter++;
+            }
+            if (rental.getStartLocationId() != -1) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " startLocationId =: startLocationId";
+                counter++;
+            }
+            if (rental.getStartRentalDate() != null) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " startRentalDate =: startRentalDate";
+                counter++;
+            }
+            if (rental.getEndLocationId() != -1) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " endLocationId =: endLocationId";
+                counter++;
+            }
+            if (rental.getEndRentalDate() != null) {
+                if (counter != 0) {
+                    hql += ",";
+                }
+                hql += " endRentalDate =: endRentalDate";
+                counter++;
+            }
+
+            if (counter != 0) {
+                hql += " where rentalId =: rentalId";
+
+                Query query = session.createQuery(hql);
+
+                if (rental.getCost() != -1) query.setParameter("cost", rental.getCost());
+                if (rental.getStartLocationId() != -1) query.setParameter("startLocationId", rental.getStartLocationId());
+                if (rental.getStartRentalDate() != null) query.setParameter("startRentalDate", rental.getStartRentalDate());
+                if (rental.getEndLocationId() != -1) query.setParameter("endLocationId", rental.getEndLocationId());
+                if (rental.getEndRentalDate() != null) query.setParameter("endRentalDate", rental.getEndRentalDate());
+                if (rental.getRentalId() != 0) query.setParameter("rentalId", rental.getRentalId());
+
+                rc = query.executeUpdate();
+                transaction.commit();
+            }
+
         } catch (Exception e) {
             assert transaction != null;
             transaction.rollback();
@@ -560,6 +598,33 @@ public class CrudMethods {
             session.close();
         }
         return -1;
+    }
+
+    public String getCityFromLocationId(int locationId) {
+        Session session = sessionFactory.openSession();
+        Transaction transaction = null;
+        List<String> cities = null;
+
+        try {
+            transaction = session.beginTransaction();
+            Query query = session.createQuery("Select l.city from Location l where l.locationId =: locationId");
+            query.setParameter("locationId", locationId);
+
+            cities = query.list();
+            if (cities.isEmpty() || cities == null || cities.size() > 1) {
+                return null;
+            }
+            else {
+                return cities.get(0);
+            }
+        } catch (Exception e) {
+            assert transaction != null;
+            transaction.rollback();
+            e.printStackTrace();
+        } finally {
+            session.close();
+        }
+        return null;
     }
 
     public List<Car> checkCarSatisfyFilters(Car car) {

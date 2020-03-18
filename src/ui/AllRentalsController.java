@@ -20,15 +20,15 @@ import java.sql.Timestamp;
 import java.util.ResourceBundle;
 
 public class AllRentalsController implements Initializable {
-    //TODO: change change column
+    //TODO: change column
     @FXML private TableView<Rental> availableRentalsTable;
     @FXML private TableColumn<Rental, String> pickUpLoc;
     @FXML private TableColumn<Rental, Timestamp> pickUpDate;
-    @FXML private TableColumn<Rental, Integer> dropOffLoc;
+    @FXML private TableColumn<Rental, String> dropOffLoc;
     @FXML private TableColumn<Rental, Timestamp> dropOffDate;
     @FXML private TableColumn<Rental, Double> price;
 
-    ObservableList<Rental> selectedRental;
+    static Rental selectedRental;
 
     public ObservableList<Rental> getRental() {
         ObservableList<Rental> data = FXCollections.observableArrayList();
@@ -48,7 +48,7 @@ public class AllRentalsController implements Initializable {
         availableRentalsTable.setItems(getRental());
 
         availableRentalsTable.setOnMouseClicked(e -> {
-            selectedRental = availableRentalsTable.getSelectionModel().getSelectedItems();
+            selectedRental = availableRentalsTable.getSelectionModel().getSelectedItem();
         });
     }
 
